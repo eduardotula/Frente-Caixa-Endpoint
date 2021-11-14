@@ -29,7 +29,7 @@ public class Caixa implements Serializable{
 	@Column(name = "FUNCIONARIO",columnDefinition = "VARCHAR(100)")
 	private String funcionario;
 	@Column(name = "STATUS",columnDefinition = "BOOLEAN")
-	private Boolean status;
+	private Boolean status; //Indica o status do caixa true = aberto false = fechado
 	@Column(name = "DATAHORA",columnDefinition = "TIMESTAMP")
 	private LocalDateTime dataHora;
 	

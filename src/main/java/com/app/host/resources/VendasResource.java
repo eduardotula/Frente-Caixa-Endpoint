@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.host.model.Vendas;
 import com.app.host.resources.exception.ResourceExceptionHandler;
+import com.app.host.services.CaixaService;
 import com.app.host.services.VendasService;
 
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -22,6 +24,8 @@ public class VendasResource {
 
 	@Autowired
 	private VendasService service;
+	@Autowired
+	private CaixaService serviceCaixa;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> findVendas(@PathVariable Integer id) {
@@ -35,11 +39,14 @@ public class VendasResource {
 		}
 	}
 	@PostMapping("/")
-	public ResponseEntity<?> createVendas(@RequestBody Vendas newVendas){
+	public ResponseEntity<?> createVendasLastCaixa(@RequestBody Vendas newVendas, @RequestParam (name = "loja") String loja){
 		
 		try {
 			Vendas obj = service.create(newVendas);
+			obj.setCaixa(serviceCaixa.buscarUltimoCaixa(loja));
 			return ResponseEntity.ok(obj);
+		}catch (ObjectNotFoundException e) {
+			return new ResourceExceptionHandler().objectNotFound(e);
 		} catch (Exception e) {
 			return new ResourceExceptionHandler().standardError(e);
 		}

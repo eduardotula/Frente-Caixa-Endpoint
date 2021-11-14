@@ -2,10 +2,8 @@ package com.app.host.services;
 
 import java.util.Optional;
 
-import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.app.host.model.Caixa;
@@ -25,8 +23,9 @@ public class CaixaService{
 			return ob.orElseThrow(() -> new ObjectNotFoundException(String.format("Objeto %s com id: %d não encontrado!",Caixa.class.getName(),id)));
 	}
 	
-	public Caixa buscarUltimoCaixa()throws ObjectNotFoundException{
-		Optional<Caixa> ca = repo.findLastCaixa();
+	public Caixa buscarUltimoCaixa(String loja)throws ObjectNotFoundException{	
+		Optional<Caixa> ca = repo.findLastCaixa(loja);
+		return ca.orElseThrow(() -> new ObjectNotFoundException(String.format("Ultimo caixa não encontrado!",Caixa.class.getName())));
 	}
 	
 	public Caixa create(Caixa caixa) throws IllegalArgumentException{

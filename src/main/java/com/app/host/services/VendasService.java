@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.app.host.model.Caixa;
 import com.app.host.model.Vendas;
 import com.app.host.repositories.VendasRepository;
 
@@ -19,7 +18,7 @@ public class VendasService {
 	
 	public Vendas buscar(Integer id) throws ObjectNotFoundException {
 		Optional<Vendas> ob = repo.findById(id);
-		return ob.orElseThrow(() -> new ObjectNotFoundException(String.format("Objeto %s com id: %d não encontrado!",Caixa.class.getName(),id)));
+		return ob.orElseThrow(() -> new ObjectNotFoundException(String.format("Objeto %s com id: %d não encontrado!",Vendas.class.getName(),id)));
 	}
 	
 	public Vendas create(Vendas vendas) throws IllegalArgumentException{
