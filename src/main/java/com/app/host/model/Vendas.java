@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @Table(name = "VENDAS")
@@ -41,6 +43,7 @@ public class Vendas implements Serializable{
 	@Column(name = "HORA",columnDefinition = "TIME")
 	private LocalTime hora;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name="FK_CAIXA_ID")
 	private Caixa caixa;

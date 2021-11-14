@@ -3,8 +3,12 @@ package com.app.host.resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.host.model.Caixa;
@@ -31,7 +35,18 @@ public class CaixaResource {
 		} catch (ObjectNotFoundException e) {
 			return new ResourceExceptionHandler().objectNotFound(e);
 		}
+	}
+	@PutMapping("/caixa-status/")
+	public ResponseEntity<?> updateLastCaixaStatus(@RequestParam String loja, @RequestParam Boolean status){
+	}
+	@PostMapping("/")
+	public ResponseEntity<?> createVendas(@RequestBody Caixa newCaixa){
 		
-
+		try {
+			Caixa obj = service.create(newCaixa);
+			return ResponseEntity.ok(obj);
+		} catch (Exception e) {
+			return new ResourceExceptionHandler().standardError(e);
+		}
 	}
 }

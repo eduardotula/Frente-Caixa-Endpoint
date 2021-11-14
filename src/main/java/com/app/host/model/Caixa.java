@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "CAIXA")
 public class Caixa implements Serializable{
@@ -25,12 +28,16 @@ public class Caixa implements Serializable{
 	private Integer id;
 	@Column(name = "FUNCIONARIO",columnDefinition = "VARCHAR(100)")
 	private String funcionario;
+	@Column(name = "STATUS",columnDefinition = "BOOLEAN")
+	private Boolean status;
 	@Column(name = "DATAHORA",columnDefinition = "TIMESTAMP")
 	private LocalDateTime dataHora;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy ="caixa")
 	private List<Vendas> vendas = new ArrayList<Vendas>();
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name="FK_LOJA_ID")
 	private Loja loja;
@@ -38,18 +45,16 @@ public class Caixa implements Serializable{
 	public Caixa() {
 	}
 
-
-	
-
-	public Caixa(Integer id, String funcionario, LocalDateTime dataHora, Loja loja) {
+	public Caixa(Integer id, String funcionario, Boolean status, LocalDateTime dataHora, List<Vendas> vendas,
+			Loja loja) {
 		super();
 		this.id = id;
 		this.funcionario = funcionario;
+		this.status = status;
 		this.dataHora = dataHora;
+		this.vendas = vendas;
 		this.loja = loja;
 	}
-
-
 
 
 	public Integer getId() {
@@ -76,6 +81,14 @@ public class Caixa implements Serializable{
 		return dataHora;
 	}
 
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
 
 	public void setDataHora(LocalDateTime dataHora) {
 		this.dataHora = dataHora;

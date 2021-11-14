@@ -21,4 +21,10 @@ public class VendasService {
 		Optional<Vendas> ob = repo.findById(id);
 		return ob.orElseThrow(() -> new ObjectNotFoundException(String.format("Objeto %s com id: %d não encontrado!",Caixa.class.getName(),id)));
 	}
+	
+	public Vendas create(Vendas vendas) throws IllegalArgumentException{
+		return repo.save(vendas);
+	}
+	
+
 }
