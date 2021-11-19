@@ -25,7 +25,7 @@ public class CaixaService{
 	
 	public Caixa buscarUltimoCaixa(String loja)throws ObjectNotFoundException{	
 		Optional<Caixa> ca = repo.findLastCaixa(loja);
-		return ca.orElseThrow(() -> new ObjectNotFoundException(String.format("Ultimo caixa não encontrado!",Caixa.class.getName())));
+		return ca.orElseThrow(() -> new ObjectNotFoundException(String.format("Ultimo caixa aberto não encontrado!",Caixa.class.getName())));
 	}
 	
 	public Caixa create(Caixa caixa) throws IllegalArgumentException{

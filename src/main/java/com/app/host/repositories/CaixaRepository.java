@@ -11,7 +11,7 @@ import com.app.host.model.Caixa;
 public interface CaixaRepository extends JpaRepository<Caixa, Integer>{
 
 	@Query(value = "SELECT * FROM CAIXA C INNER JOIN LOJA L ON C.FK_LOJA_ID = L.ID "
-			+ "WHERE L.NOME = ?1  "
+			+ "WHERE L.NOME = ?1 AND C.STATUS = FALSE  "
 			+ "ORDER BY C.ID DESC LIMIT 1",nativeQuery = true)
 	Optional<Caixa> findLastCaixa(String nome) ;
 }
