@@ -42,14 +42,11 @@ public class CaixaResource {
 	}
 
 	@PutMapping("/caixa-status/")
-	public ResponseEntity<?> updateLastCaixaStatus(@RequestParam String loja, @RequestParam Boolean status) {
+	public ResponseEntity<?> updateLastCaixaStatus(@RequestBody Caixa caixaR,@RequestParam String loja) {
 		try {
-			if (loja == null || status == null)
-				return new ResourceExceptionHandler()
-						.standardError(new Exception("Parametros loja = null ou staus = null"));
-			
 			Caixa caixa = service.buscarUltimoCaixa(loja);
-			caixa.setStatus(status);
+			caixa.setStatus(caixaR.getStatus());
+			System.out.println(caixa.getId());
 			service.create(caixa);
 			return ResponseEntity.status(HttpStatus.CREATED).body(caixa);
 		} catch (ObjectNotFoundException e) {

@@ -26,11 +26,11 @@ public class Vendas implements Serializable{
 	private Integer id;
 	@Column(name = "C_BARRA", columnDefinition = "VARCHAR(20)")
 	private String codBarra;
-	@Column(name = "DESCRICAO", columnDefinition = "VARCHAR(20)")
+	@Column(name = "DESCRICAO", columnDefinition = "VARCHAR(150)")
 	private String descricao;
 	@Column(name = "QUANTI")
 	private Integer quantidade;
-	@Column(name = "TIPO_PAGA", columnDefinition = "CHAR(2)")
+	@Column(name = "TIPO_PAGA", columnDefinition = "CHAR(5)")
 	private String tipoPaga;
 	@Column(name = "V_UNI", columnDefinition = "DECIMAL(18,2)")
 	private Double vUni;
