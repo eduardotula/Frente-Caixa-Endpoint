@@ -41,7 +41,7 @@ public class CaixaResource {
 		}
 	}
 
-	@PutMapping("/caixa-status/")
+	@PutMapping("/caixa-status")
 	public ResponseEntity<?> updateLastCaixaStatus(@RequestBody Caixa caixaR,@RequestParam String loja) {
 		try {
 			Caixa caixa = service.buscarUltimoCaixa(loja);
@@ -50,6 +50,7 @@ public class CaixaResource {
 			service.create(caixa);
 			return ResponseEntity.status(HttpStatus.CREATED).body(caixa);
 		} catch (ObjectNotFoundException e) {
+			e.printStackTrace();
 			return new ResourceExceptionHandler().objectNotFound(e);
 		}catch (Exception e) {
 			return new ResourceExceptionHandler().standardError(e);
@@ -61,7 +62,9 @@ public class CaixaResource {
 		try {
 			Loja loja = serviceLoja.buscarByNome(lojaS);
 			newCaixa.setLoja(loja);
+			
 			Caixa obj = service.create(newCaixa);
+			System.out.println(obj.getId());
 			return ResponseEntity.ok(obj);
 		}catch (ObjectNotFoundException e) {
 			return new ResourceExceptionHandler().objectNotFound(e);
