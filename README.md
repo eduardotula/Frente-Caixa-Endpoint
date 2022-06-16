@@ -1,4 +1,4 @@
-# Quarkus Pet Clinic API
+# Quarkus Frente Caixa API
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
