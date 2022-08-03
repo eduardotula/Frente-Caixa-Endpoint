@@ -1,15 +1,16 @@
-package com.loja65.domain.model;
+package com.loja65.inbound.dto.consulta;
 
 import com.loja65.domain.enums.TipoPagamentoEnum;
+import com.loja65.domain.model.Produto;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class Venda {
+@Builder
+public class VendaConsultaDto {
 
-    private Integer vendaId;
-    private Integer caixaId;
     private Integer quantidade;
     private Double valorDinheiro;
     private Double valorCartao;
@@ -18,7 +19,4 @@ public class Venda {
     private LocalDateTime createdAt;
     private Integer localVendaId;
     private Produto produto;
-
-
-
 }
