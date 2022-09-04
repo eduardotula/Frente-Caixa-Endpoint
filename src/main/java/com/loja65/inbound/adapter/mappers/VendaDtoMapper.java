@@ -1,7 +1,7 @@
 package com.loja65.inbound.adapter.mappers;
 
 import com.loja65.domain.model.Venda;
-import com.loja65.inbound.dto.VendaDto;
+import com.loja65.inbound.adapter.dto.VendaDto;
 import org.mapstruct.Mapper;
 
 import javax.enterprise.context.ApplicationScoped;

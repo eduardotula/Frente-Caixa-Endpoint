@@ -34,11 +34,10 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         if(lastCaixa == null || lastCaixa.getStatus().equals(Caixa.CaixaStatus.FECHADO)) throw new IllegalArgumentException("Nenhum caixa aberto encontrado");
 
         venda.setCaixaId(lastCaixa.getCaixaId());
-
         Produto produto = venda.getProduto();
         Produto prodEntity = produtoPort.findByCodBarra(produto.getCodBarra());
         if(prodEntity == null) {
-            prodEntity.setCreatedAt(produto.getCreatedAt());
+            produto.setCreatedAt(venda.getCreatedAt());
             prodEntity = produtoPort.insert(produto);
         }
 

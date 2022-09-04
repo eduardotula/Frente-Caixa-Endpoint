@@ -1,4 +1,4 @@
-package com.loja65.inbound.dto.consulta;
+package com.loja65.inbound.adapter.dto.consulta;
 
 import com.loja65.domain.model.Caixa;
 import com.loja65.domain.model.OperacaoCaixa;

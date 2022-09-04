@@ -1,11 +1,9 @@
 package com.loja65.inbound.adapter;
 
-import com.loja65.domain.model.Caixa;
 import com.loja65.domain.usecase.ConsultarVendasUseCase;
 import com.loja65.inbound.adapter.mappers.consulta.CaixaConsultaMapper;
 import com.loja65.inbound.adapter.mappers.consulta.VendaConsultaMapper;
-import com.loja65.inbound.dto.consulta.CaixaConsultaDto;
-import com.loja65.inbound.dto.consulta.VendaConsultaDto;
+import com.loja65.inbound.adapter.dto.consulta.CaixaConsultaDto;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;

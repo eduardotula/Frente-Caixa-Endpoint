@@ -2,12 +2,15 @@ package com.loja65.outbound.adapters.entity;
 
 import com.loja65.outbound.port.ProdutoPort;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "produto")
 @Table(name = "produto")
 public class ProdutoEntity{

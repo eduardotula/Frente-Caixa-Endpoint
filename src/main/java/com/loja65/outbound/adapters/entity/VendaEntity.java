@@ -1,13 +1,14 @@
 package com.loja65.outbound.adapters.entity;
 
-import com.loja65.domain.enums.TipoPagamentoEnum;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "venda")
 @Table(name = "venda")
 public class VendaEntity {
@@ -38,9 +39,8 @@ public class VendaEntity {
     @Column(name = "valorTotal",columnDefinition = "DECIMAL(18,2)")
     private Double valorTotal;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "tipoPagamento")
-    private TipoPagamentoEnum tipoPagamento;
+    private String tipoPagamento;
 
     @ManyToOne()
     @JoinColumn(name = "produto_id_fk")

@@ -1,4 +1,4 @@
-package com.loja65.inbound.dto.consulta;
+package com.loja65.inbound.adapter.dto.consulta;
 
 import com.loja65.domain.enums.TipoPagamentoEnum;
 import com.loja65.domain.model.Produto;

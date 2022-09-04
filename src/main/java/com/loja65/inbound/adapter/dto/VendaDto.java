@@ -1,12 +1,10 @@
-package com.loja65.inbound.dto;
+package com.loja65.inbound.adapter.dto;
 
 
 import lombok.Data;
 
-import javax.validation.Payload;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,7 +20,7 @@ public class VendaDto {
     private Double valorTotal;
 
     @NotBlank(message = "Forma de pagamento não informada")
-    @Pattern(regexp = "(DINHEIRO|CARTAO|PIX)", message = "Forma de pagamento inválida (DINHEIRO,CARTAO,PIX)")
+    @Pattern(regexp = "(DINHEIRO|CARTAO|PIX|CARTAO_DINHEIRO)", message = "Forma de pagamento inválida (DINHEIRO|CARTAO|PIX|CARTAO_DINHEIRO)")
     private String tipoPagamento;
 
     @NotNull(message = "localVendaId não informado")

@@ -1,4 +1,4 @@
-package com.loja65.inbound.dto;
+package com.loja65.inbound.adapter.dto;
 
 import com.loja65.domain.enums.OperacaoCaixaEnum;
 import lombok.Data;

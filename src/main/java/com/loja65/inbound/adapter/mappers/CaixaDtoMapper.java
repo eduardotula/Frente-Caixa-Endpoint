@@ -1,12 +1,10 @@
 package com.loja65.inbound.adapter.mappers;
 
 import com.loja65.domain.model.Caixa;
-import com.loja65.inbound.dto.CaixaDto;
+import com.loja65.inbound.adapter.dto.CaixaDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-
-import javax.enterprise.context.ApplicationScoped;
 
 @Mapper(componentModel = "cdi")
 public interface CaixaDtoMapper {

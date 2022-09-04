@@ -1,4 +1,4 @@
-package com.loja65.inbound.dto;
+package com.loja65.inbound.adapter.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

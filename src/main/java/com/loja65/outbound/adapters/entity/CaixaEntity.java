@@ -5,6 +5,8 @@ import com.loja65.domain.model.Loja;
 import com.loja65.domain.model.OperacaoCaixa;
 import com.loja65.domain.model.Venda;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
@@ -14,7 +16,8 @@ import java.util.List;
 
 @Entity(name = "caixa")
 @Table(name = "caixa")
-@Data
+@Getter
+@Setter
 public class CaixaEntity {
 
 
@@ -32,9 +35,8 @@ public class CaixaEntity {
     @JoinColumn(name = "loja_id_fk")
     private LojaEntity loja;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Caixa.CaixaStatus status;
+    private String status;
 
     @OneToMany(mappedBy = "caixa")
     private List<OperacaoCaixaEntity> operacaoesCaixa;

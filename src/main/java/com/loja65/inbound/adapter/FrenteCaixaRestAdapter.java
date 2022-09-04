@@ -8,12 +8,11 @@ import com.loja65.inbound.adapter.mappers.CaixaDtoMapper;
 import com.loja65.inbound.adapter.mappers.LojaDtoMapper;
 import com.loja65.inbound.adapter.mappers.OperacaoCaixaDtoMapper;
 import com.loja65.inbound.adapter.mappers.VendaDtoMapper;
-import com.loja65.inbound.dto.CaixaDto;
-import com.loja65.inbound.dto.LojaDto;
-import com.loja65.inbound.dto.OperacaoCaixaDto;
-import com.loja65.inbound.dto.VendaDto;
+import com.loja65.inbound.adapter.dto.CaixaDto;
+import com.loja65.inbound.adapter.dto.LojaDto;
+import com.loja65.inbound.adapter.dto.OperacaoCaixaDto;
+import com.loja65.inbound.adapter.dto.VendaDto;
 import com.loja65.inbound.port.FrenteCaixaPort;
-import com.loja65.outbound.adapters.mappers.OperacaoCaixaMapper;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -28,6 +27,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Path("/")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class FrenteCaixaRestAdapter {
 
     @Inject

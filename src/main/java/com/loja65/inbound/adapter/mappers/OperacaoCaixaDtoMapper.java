@@ -1,7 +1,7 @@
 package com.loja65.inbound.adapter.mappers;
 
 import com.loja65.domain.model.OperacaoCaixa;
-import com.loja65.inbound.dto.OperacaoCaixaDto;
+import com.loja65.inbound.adapter.dto.OperacaoCaixaDto;
 import org.mapstruct.Mapper;
 
 import javax.enterprise.context.ApplicationScoped;
