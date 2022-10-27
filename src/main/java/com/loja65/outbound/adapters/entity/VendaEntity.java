@@ -46,6 +46,6 @@ public class VendaEntity {
     @JoinColumn(name = "produto_id_fk")
     private ProdutoEntity produto;
 
-    @Column(name = "createdAt",columnDefinition = "DATETIME")
+    @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 }

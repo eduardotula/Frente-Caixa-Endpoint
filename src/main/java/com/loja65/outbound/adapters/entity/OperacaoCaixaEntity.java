@@ -41,6 +41,6 @@ public class OperacaoCaixaEntity {
     @Column(name = "valorDinheiro",columnDefinition = "DECIMAL(18,2)")
     private Double valorDinheiro;
 
-    @Column(name = "createdAt",columnDefinition = "DATETIME")
+    @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 }

@@ -30,9 +30,9 @@ public class ProdutoEntity{
     @Column(name = "valorUltVenda",columnDefinition = "DECIMAL(18,2)")
     private Double valorUltVenda;
 
-    @Column(name = "DataUltVenda",columnDefinition = "DATETIME")
+    @Column(name = "DataUltVenda",columnDefinition = "TIMESTAMP")
     private LocalDateTime DataUltVenda;
 
-    @Column(name = "createdAt",columnDefinition = "DATETIME")
+    @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 }

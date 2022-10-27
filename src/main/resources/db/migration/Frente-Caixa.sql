@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXISTS loja(
-loja_id INTEGER,
-nome VARCHAR(100),
-cnpj VARCHAR(20),
-rua VARCHAR(100),
-cidade VARCHAR(100)
-)

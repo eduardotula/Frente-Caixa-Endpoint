@@ -1,0 +1,8 @@
+docker-compose build --progress=plain 
+
+docker-compose build 
+
+docker tag frente-caixa registry.heroku.com/frente-caixa/web
+docker push registry.heroku.com/frente-caixa/web
+heroku container:release web --app frente-caixa
+

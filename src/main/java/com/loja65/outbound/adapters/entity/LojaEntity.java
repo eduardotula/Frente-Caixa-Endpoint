@@ -38,6 +38,6 @@ public class LojaEntity {
     @OneToMany(mappedBy = "loja")
     private List<CaixaEntity> caixas;
 
-    @Column(name = "createdAt",columnDefinition = "DATETIME")
+    @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 }

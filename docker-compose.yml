@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+
+  monitoring:
+
+    container_name: frente-caixa
+    image: frente-caixa
+    build:
+      context: ./
+      dockerfile: ./src/main/docker/Dockerfile.jvm
+      args:
+        DB_HEROKU_SPLIT: "true"
+        DATABASE_URL: "postgres://ipkfajwmrcwnxl:07e11b9f0b942e9990d6d4abb7cf3a08c15cd943e319565e4e9225b1ca2318ae@ec2-54-91-223-99.compute-1.amazonaws.com:5432/dfnpp5depvdj4s"
+    
+    ports:
+      - 8080:8080
+    networks:
+      - heroku-net
+    environment:
+      - DB_ECHO_VALUES=true      
+      - PORT=8080
+        ### Using the DB_HEROKU_SPLIT = true  ###
+      - DB_HEROKU_SPLIT=true
+      - DATABASE_URL=postgres://ipkfajwmrcwnxl:07e11b9f0b942e9990d6d4abb7cf3a08c15cd943e319565e4e9225b1ca2318ae@ec2-54-91-223-99.compute-1.amazonaws.com:5432/dfnpp5depvdj4s
+        ### Using the DB_HEROKU_SPLIT = false ###
+      # - DB_HEROKU_SPLIT=false
+      # - DB_JDBC_URL=jdbc:postgresql://heroku-postgresql:5432/postgres
+      # - DB_JDBC_USER=postgres
+      # - DB_JDBC_PASSWORD=postgres
+
+
+networks:
+  heroku-net:
+    driver: bridge

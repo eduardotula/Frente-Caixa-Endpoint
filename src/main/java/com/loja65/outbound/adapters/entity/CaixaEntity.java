@@ -47,6 +47,6 @@ public class CaixaEntity {
     @Column(name = "funcionario",columnDefinition = "VARCHAR(100)")
     private String funcionario;
 
-    @Column(name = "createdAt",columnDefinition = "DATETIME")
+    @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 }
