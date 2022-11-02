@@ -12,6 +12,7 @@ import com.loja65.inbound.adapter.dto.CaixaDto;
 import com.loja65.inbound.adapter.dto.LojaDto;
 import com.loja65.inbound.adapter.dto.OperacaoCaixaDto;
 import com.loja65.inbound.adapter.dto.VendaDto;
+import com.loja65.inbound.adapter.mappers.consulta.VendaConsultaMapper;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -25,20 +26,23 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class FrenteCaixaRestAdapter {
 
+
+    @Inject
+    LojaDtoMapper lojaDtoMapper;
     @Inject
     FrenteCaixaPort frenteCaixaPort;
     @Inject
     VendaDtoMapper vendaDtoMapper;
     @Inject
     CaixaDtoMapper caixaDtoMapper;
-    @Inject
-    LojaDtoMapper lojaDtoMapper;
     @Inject
     OperacaoCaixaDtoMapper operacaoCaixaDtoMapper;
 
@@ -123,6 +127,21 @@ public class FrenteCaixaRestAdapter {
     public LojaDto cadastrarLoja(@Valid LojaDto lojaDto){
         Loja loja = lojaDtoMapper.lojaDto2Loja(lojaDto);
         return lojaDtoMapper.loja2LojaDto(frenteCaixaPort.cadastrarLoja(loja));
+    }
+
+    @GET
+    @Path("/loja")
+    @Operation(summary = "Get all lojas")
+    @APIResponse(
+            description = "Get all lojas",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT)
+            )
+    )
+    public List<LojaDto> getAllLojas(){
+        return frenteCaixaPort.getAllLojas().stream().map(lojaDtoMapper::loja2LojaDto).collect(Collectors.toList());
     }
 
 }

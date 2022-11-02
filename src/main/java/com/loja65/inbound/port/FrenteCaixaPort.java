@@ -5,6 +5,8 @@ import com.loja65.domain.model.Loja;
 import com.loja65.domain.model.OperacaoCaixa;
 import com.loja65.domain.model.Venda;
 
+import java.util.List;
+
 public interface FrenteCaixaPort {
 
 
@@ -14,4 +16,6 @@ public interface FrenteCaixaPort {
     Caixa fecharCaixa(Caixa caixa);
     OperacaoCaixa addOperacaoLastCaixa(OperacaoCaixa operacaoCaixa, Integer lojaId);
     Loja cadastrarLoja(Loja loja);
+
+    List<Loja> getAllLojas();
 }

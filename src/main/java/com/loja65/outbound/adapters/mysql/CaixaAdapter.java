@@ -27,7 +27,6 @@ public class CaixaAdapter implements CaixaPort {
 
     @Override
     public Caixa insert(Caixa caixa) {
-        caixa.setCreatedAt(LocalDateTime.now());
         return mapper.caixaEntity2Caixa(repository.save(mapper.caixa2CaixaEntity(caixa)));
     }
 

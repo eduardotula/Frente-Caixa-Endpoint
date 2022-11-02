@@ -7,6 +7,8 @@ import com.loja65.outbound.port.LojaPort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class LojaAdapter implements LojaPort {
@@ -23,5 +25,10 @@ public class LojaAdapter implements LojaPort {
     @Override
     public Loja insert(Loja loja) {
         return mapper.lojaEntity2Loja(repository.save(mapper.loja2LojaEntity(loja)));
+    }
+
+    @Override
+    public List<Loja> listAll(){
+        return repository.findAll().stream().map(mapper::lojaEntity2Loja).collect(Collectors.toList());
     }
 }

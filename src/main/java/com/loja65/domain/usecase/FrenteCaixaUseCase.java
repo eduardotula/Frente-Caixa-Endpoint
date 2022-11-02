@@ -3,11 +3,13 @@ package com.loja65.domain.usecase;
 import com.loja65.domain.model.*;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import com.loja65.outbound.port.*;
-import org.springframework.stereotype.Component;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @RequestScoped
 public class FrenteCaixaUseCase implements FrenteCaixaPort {
@@ -26,6 +28,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
 
 
     @Override
+    @Transactional
     public Venda inserirVendaUltimoCaixaAberto(Integer lojaId, Venda venda) throws IllegalArgumentException, IllegalStateException{
         Loja loja = lojaPort.findLojaById(lojaId);
         if(loja == null) throw new IllegalArgumentException("Nenhuma loja localizada por id");
@@ -55,6 +58,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     }
 
     @Override
+    @Transactional
     public Caixa abrirCaixa(Caixa caixa) throws IllegalArgumentException, IllegalStateException {
         Caixa lastCaixa = caixaPort.findLastCaixaByLojaId(caixa.getLojaId());
         if(lastCaixa!=null && lastCaixa.getStatus().equals(Caixa.CaixaStatus.ABERTO) ) throw new IllegalArgumentException("Ultimo caixa já aberto");
@@ -73,6 +77,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     }
 
     @Override
+    @Transactional
     public Caixa fecharCaixa(Caixa caixa) throws IllegalArgumentException, IllegalStateException{
         Caixa lastCaixa = caixaPort.findLastCaixaByLojaId(caixa.getLojaId());
         if(lastCaixa!=null && lastCaixa.getStatus().equals(Caixa.CaixaStatus.FECHADO)) throw new IllegalArgumentException("Ultimo caixa já fechado");
@@ -89,6 +94,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     }
 
     @Override
+    @Transactional
     public OperacaoCaixa addOperacaoLastCaixa(OperacaoCaixa operacaoCaixa, Integer lojaId) {
         Loja loja = lojaPort.findLojaById(lojaId);
         if(loja == null) throw new IllegalArgumentException("Nenhuma loja localizada por id");
@@ -101,9 +107,16 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     }
 
     @Override
+    @Transactional
     public Loja cadastrarLoja(Loja loja) throws IllegalArgumentException, IllegalStateException{
         return lojaPort.insert(loja);
     }
 
+    @Override
+    public List<Loja> getAllLojas(){
+        var lojas = lojaPort.listAll();
+        if(Objects.isNull(lojas) || lojas.isEmpty()) throw new IllegalArgumentException("Nenhuma loja cadastrada");
+        return lojas;
+    }
 
 }

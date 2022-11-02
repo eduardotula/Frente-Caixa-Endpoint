@@ -5,9 +5,13 @@ import com.loja65.outbound.adapters.entity.VendaEntity;
 import com.loja65.outbound.adapters.mappers.VendaEntityMapper;
 import com.loja65.outbound.adapters.repositories.VendaRepository;
 import com.loja65.outbound.port.VendaPort;
+import org.springframework.data.domain.Pageable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class VendaAdapter implements VendaPort {
@@ -26,5 +30,10 @@ public class VendaAdapter implements VendaPort {
             throw new IllegalStateException("Falha ao gravar venda" + venda.getLocalVendaId() +": " + e.getMessage());
         }
         return mapper.vendaEntity2Venda(v);
+    }
+
+    @Override
+    public List<Venda> getVendasByFilter(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer lojaId, Pageable pageable) {
+        return repository.findAllByCreatedAtBetweenAndLojaLojaId(dataInicial,dataFinal,lojaId, pageable).stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList());
     }
 }
