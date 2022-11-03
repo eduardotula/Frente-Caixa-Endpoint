@@ -1,6 +1,7 @@
 package com.loja65.outbound.adapters.mysql;
 
 import com.loja65.domain.model.Produto;
+import com.loja65.domain.utils.DefaultTimeZone;
 import com.loja65.outbound.adapters.entity.ProdutoEntity;
 import com.loja65.outbound.adapters.mappers.ProdutoEntityMapper;
 import com.loja65.outbound.adapters.repositories.ProdutoRepository;
@@ -18,13 +19,15 @@ public class ProdutoDataAdapter implements ProdutoPort {
     ProdutoEntityMapper mapper;
     @Inject
     ProdutoRepository repository;
+    @Inject
+    DefaultTimeZone defaultTimeZone;
 
     @Override
     public Produto insert(Produto produto) {
         ProdutoEntity prodEntity = mapper.produto2ProdutoEntity(produto);
 
         try{
-            if(prodEntity.getCreatedAt() == null) prodEntity.setCreatedAt(LocalDateTime.now());
+            if(prodEntity.getCreatedAt() == null) prodEntity.setCreatedAt(defaultTimeZone.getSp());
             prodEntity = repository.save(prodEntity);
         }catch (Exception e){
             e.printStackTrace();

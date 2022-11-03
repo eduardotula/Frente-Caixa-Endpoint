@@ -1,6 +1,7 @@
 package com.loja65.outbound.adapters.mysql;
 
 import com.loja65.domain.model.Caixa;
+import com.loja65.domain.utils.DefaultTimeZone;
 import com.loja65.outbound.adapters.entity.CaixaEntity;
 import com.loja65.outbound.adapters.mappers.CaixaEntityMapper;
 import com.loja65.outbound.adapters.repositories.CaixaRepository;
@@ -24,6 +25,8 @@ public class CaixaAdapter implements CaixaPort {
     CaixaEntityMapper mapper;
     @Inject
     CaixaRepository repository;
+    @Inject
+    DefaultTimeZone defaultTimeZone;
 
     @Override
     public Caixa insert(Caixa caixa) {
@@ -50,8 +53,8 @@ public class CaixaAdapter implements CaixaPort {
     public List<Caixa> findAllTodayByLojaId(Integer lojaId) {
         List<CaixaEntity> caixaEntity = new ArrayList<>();
         try{
-            LocalDateTime comecoDia = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
-            LocalDateTime finalDia = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+            LocalDateTime comecoDia = LocalDateTime.of(defaultTimeZone.getSp().toLocalDate(), LocalTime.MIN);
+            LocalDateTime finalDia = LocalDateTime.of(defaultTimeZone.getSp().toLocalDate(), LocalTime.MAX);
             caixaEntity = repository.findAllByCreatedAtBetweenAndLojaLojaId(comecoDia,finalDia, lojaId);
         }catch (Exception e){
             throw new IllegalArgumentException("Caixa de loja não encontrado");

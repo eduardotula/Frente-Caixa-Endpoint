@@ -1,6 +1,7 @@
 package com.loja65.domain.usecase;
 
 import com.loja65.domain.model.*;
+import com.loja65.domain.utils.DefaultTimeZone;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import com.loja65.outbound.port.*;
 
@@ -24,6 +25,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     ProdutoPort produtoPort;
     @Inject
     VendaPort vendaPort;
+    @Inject
+    DefaultTimeZone defaultTimeZone;
 
 
 
@@ -44,7 +47,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
             prodEntity = produtoPort.insert(produto);
         }
 
-        prodEntity.setDataUltVenda(LocalDateTime.now());
+        prodEntity.setDataUltVenda(defaultTimeZone.getSp());
         prodEntity.setValorUltVenda(venda.getValorTotal()/venda.getQuantidade());
         produtoPort.insert(prodEntity);
         venda.setProduto(prodEntity);
