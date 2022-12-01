@@ -4,14 +4,11 @@ import com.loja65.domain.model.Caixa;
 import com.loja65.domain.model.Loja;
 import com.loja65.domain.model.OperacaoCaixa;
 import com.loja65.domain.model.Venda;
+import com.loja65.inbound.adapter.dto.*;
 import com.loja65.inbound.adapter.mappers.CaixaDtoMapper;
 import com.loja65.inbound.adapter.mappers.LojaDtoMapper;
 import com.loja65.inbound.adapter.mappers.OperacaoCaixaDtoMapper;
 import com.loja65.inbound.adapter.mappers.VendaDtoMapper;
-import com.loja65.inbound.adapter.dto.CaixaDto;
-import com.loja65.inbound.adapter.dto.LojaDto;
-import com.loja65.inbound.adapter.dto.OperacaoCaixaDto;
-import com.loja65.inbound.adapter.dto.VendaDto;
 import com.loja65.inbound.adapter.mappers.consulta.VendaConsultaMapper;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -113,6 +110,24 @@ public class FrenteCaixaRestAdapter {
         OperacaoCaixa operacaoCaixa = operacaoCaixaDtoMapper.operacaoCaixaDto2OperacaoCaixa(operacaoCaixaDto);
         return operacaoCaixaDtoMapper.operacaoCaixa2OperacaoCaixaDto(frenteCaixaPort.addOperacaoLastCaixa(operacaoCaixa, lojaId));
     }
+
+    @DELETE
+    @Path("/venda/ultimoCaixa/{lojaId}")
+    @Operation(summary = "Delete a venda with the localId")
+    @APIResponse(
+            description = "Delete a venda with the localId",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT)
+            )
+    )
+    public void deleteVendaByLocalId(@PathParam("lojaId") Integer lojaId, Integer vendaLocalId){
+        frenteCaixaPort.apagarVenda(lojaId,vendaLocalId);
+    }
+
+
+
     @POST
     @Path("/loja")
     @Operation(summary = "Cadastra Loja")

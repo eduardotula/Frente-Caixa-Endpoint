@@ -11,6 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -36,4 +37,12 @@ public class VendaAdapter implements VendaPort {
     public List<Venda> getVendasByFilter(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer lojaId, Pageable pageable) {
         return repository.findAllByCreatedAtBetweenAndLojaLojaId(dataInicial,dataFinal,lojaId, pageable).stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteVendaByLocalId(Integer lojaId, Integer localId) {
+        VendaEntity venda = repository.findByLojaIdAndlocalVendaId(lojaId,localId);
+        if(Objects.isNull(venda)) throw new IllegalStateException("Venda não encontrada com ids");
+        repository.delete(venda);
+    }
+
 }

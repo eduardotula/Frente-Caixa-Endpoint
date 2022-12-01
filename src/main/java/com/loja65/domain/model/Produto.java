@@ -13,6 +13,7 @@ public class Produto {
     private String codBarra;
     private String descricao;
     private Double valorUltVenda;
+    private Double valor;
     private LocalDateTime DataUltVenda;
     private LocalDateTime createdAt;
 }

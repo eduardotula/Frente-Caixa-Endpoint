@@ -27,8 +27,11 @@ public class ProdutoEntity{
     @Column(name = "descricao",columnDefinition = "VARCHAR(80)")
     private String descricao;
 
-    @Column(name = "valorUltVenda",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "valorUltVenda",columnDefinition = "NUMERIC(18,2)")
     private Double valorUltVenda;
+
+    @Column(name = "valor",columnDefinition = "NUMERIC(18,2)")
+    private Double valor;
 
     @Column(name = "DataUltVenda",columnDefinition = "TIMESTAMP")
     private LocalDateTime DataUltVenda;

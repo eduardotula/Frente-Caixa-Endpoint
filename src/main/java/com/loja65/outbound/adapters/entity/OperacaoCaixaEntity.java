@@ -32,13 +32,13 @@ public class OperacaoCaixaEntity {
     @Column(name = "operacao")
     private OperacaoCaixaEnum operacao;
 
-    @Column(name = "trocoCaixa",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "trocoCaixa",columnDefinition = "NUMERIC(18,2)")
     private Double trocoCaixa;
 
-    @Column(name = "valorCart",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "valorCart",columnDefinition = "NUMERIC(18,2)")
     private Double valorCart;
 
-    @Column(name = "valorDinheiro",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "valorDinheiro",columnDefinition = "NUMERIC(18,2)")
     private Double valorDinheiro;
 
     @Column(name = "createdAt",columnDefinition = "TIMESTAMP")

@@ -28,7 +28,7 @@ public class VendaDto {
 
     @Valid
     @NotNull(message = "produto não informado")
-    private ProdutoDto produto;
+    private ProdutovendaDto produto;
 
     @NotNull(message = "createdAt não informado")
     private LocalDateTime createdAt;

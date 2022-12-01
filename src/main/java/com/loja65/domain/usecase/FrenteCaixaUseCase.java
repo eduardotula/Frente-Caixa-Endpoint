@@ -2,13 +2,13 @@ package com.loja65.domain.usecase;
 
 import com.loja65.domain.model.*;
 import com.loja65.domain.utils.DefaultTimeZone;
+import com.loja65.inbound.adapter.dto.ProdutoDto;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import com.loja65.outbound.port.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +44,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         Produto prodEntity = produtoPort.findByCodBarra(produto.getCodBarra());
         if(prodEntity == null) {
             produto.setCreatedAt(venda.getCreatedAt());
+            produto.setValor(venda.getValorTotal()/venda.getQuantidade());
             prodEntity = produtoPort.insert(produto);
         }
 
@@ -56,8 +57,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     }
 
     @Override
-    public void apagarVenda() throws IllegalArgumentException, IllegalStateException{
-
+    public void apagarVenda(Integer lojaId, Integer localId) throws IllegalArgumentException, IllegalStateException{
+        vendaPort.deleteVendaByLocalId(lojaId,localId);
     }
 
     @Override
@@ -77,6 +78,11 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         caixa.getOperacaoesCaixa().forEach(operacaoCaixa -> operacaoCaixa.setCaixaId(caixaId));
         operacaoCaixaPort.insertAll(caixa.getOperacaoesCaixa());
         return caixa;
+    }
+
+    @Override
+    public ProdutoDto updateProduto(ProdutoDto produtoDto) {
+        return null;
     }
 
     @Override

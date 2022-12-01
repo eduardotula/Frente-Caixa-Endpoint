@@ -30,13 +30,13 @@ public class VendaEntity {
     @Column(name = "quantidade",columnDefinition = "INTEGER")
     private Integer quantidade;
 
-    @Column(name = "valorDinheiro",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "valorDinheiro",columnDefinition = "NUMERIC(18,2)")
     private Double valorDinheiro;
 
-    @Column(name = "valorCartao",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "valorCartao",columnDefinition = "NUMERIC(18,2)")
     private Double valorCartao;
 
-    @Column(name = "valorTotal",columnDefinition = "DECIMAL(18,2)")
+    @Column(name = "valorTotal",columnDefinition = "NUMERIC(18,2)")
     private Double valorTotal;
 
     @Column(name = "tipoPagamento")
