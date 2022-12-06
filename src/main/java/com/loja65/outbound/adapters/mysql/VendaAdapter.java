@@ -40,9 +40,9 @@ public class VendaAdapter implements VendaPort {
 
     @Override
     public void deleteVendaByLocalId(Integer lojaId, Integer localId) {
-        VendaEntity venda = repository.findByLojaIdAndlocalVendaId(lojaId,localId);
-        if(Objects.isNull(venda)) throw new IllegalStateException("Venda não encontrada com ids");
-        repository.delete(venda);
+        List<VendaEntity> venda = repository.findByLojaIdAndlocalVendaId(lojaId,localId);
+        if(Objects.isNull(venda)) throw new IllegalStateException("Vendas não encontrada com ids");
+        venda.forEach(v -> repository.deleteById(v.getVendaId()));
     }
 
 }

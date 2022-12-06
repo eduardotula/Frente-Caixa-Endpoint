@@ -116,13 +116,13 @@ public class FrenteCaixaRestAdapter {
     @Operation(summary = "Delete a venda with the localId")
     @APIResponse(
             description = "Delete a venda with the localId",
-            responseCode = "200",
+            responseCode = "202",
             content = @Content(
                     mediaType = MediaType.APPLICATION_JSON,
                     schema = @Schema(type = SchemaType.OBJECT)
             )
     )
-    public void deleteVendaByLocalId(@PathParam("lojaId") Integer lojaId, Integer vendaLocalId){
+    public void deleteVendaByLocalId(@PathParam("lojaId") Integer lojaId, @QueryParam("localId") Integer vendaLocalId){
         frenteCaixaPort.apagarVenda(lojaId,vendaLocalId);
     }
 

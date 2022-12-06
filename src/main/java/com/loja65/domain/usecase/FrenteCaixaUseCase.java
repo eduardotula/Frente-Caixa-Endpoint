@@ -48,7 +48,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
             prodEntity = produtoPort.insert(produto);
         }
 
-        prodEntity.setDataUltVenda(defaultTimeZone.getSp());
+        prodEntity.setDataUltVenda(venda.getCreatedAt());
         prodEntity.setValorUltVenda(venda.getValorTotal()/venda.getQuantidade());
         produtoPort.insert(prodEntity);
         venda.setProduto(prodEntity);

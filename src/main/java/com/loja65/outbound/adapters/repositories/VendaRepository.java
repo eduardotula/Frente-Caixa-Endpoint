@@ -17,5 +17,5 @@ public interface VendaRepository extends JpaRepository<VendaEntity, Integer> {
                                                              @Param("dataFinal") LocalDateTime dataFinal,
                                                              @Param("lojaId") Integer lojaId, Pageable pageable);
     @Query("SELECT v FROM venda v WHERE v.caixa.loja.lojaId = :lojaId AND v.localVendaId = :localVendaId")
-    VendaEntity findByLojaIdAndlocalVendaId(@Param("lojaId")Integer lojaId, @Param("localVendaId") Integer localVendaId);
+    List<VendaEntity> findByLojaIdAndlocalVendaId(@Param("lojaId")Integer lojaId, @Param("localVendaId") Integer localVendaId);
 }
