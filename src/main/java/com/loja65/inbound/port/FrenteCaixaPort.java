@@ -15,7 +15,6 @@ public interface FrenteCaixaPort {
     void apagarVenda(Integer lojaId, Integer localId) throws IllegalArgumentException, IllegalStateException;
 
     Caixa abrirCaixa(Caixa caixa);
-    ProdutoDto updateProduto(ProdutoDto produtoDto);
     Caixa fecharCaixa(Caixa caixa);
     OperacaoCaixa addOperacaoLastCaixa(OperacaoCaixa operacaoCaixa, Integer lojaId);
     Loja cadastrarLoja(Loja loja);

@@ -1,11 +1,14 @@
 package com.loja65.domain.model;
 
 import com.loja65.domain.enums.TipoPagamentoEnum;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Venda {
 
     private Integer vendaId;

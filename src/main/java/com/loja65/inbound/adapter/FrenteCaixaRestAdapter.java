@@ -19,6 +19,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -45,6 +47,7 @@ public class FrenteCaixaRestAdapter {
 
 
     @POST
+    @RolesAllowed({"admin", "loja"})
     @Path("/venda/ultimoCaixa/{lojaId}")
     @Operation(summary = "Insert Venda into the last opened Caixa")
     @APIResponse(
@@ -61,6 +64,7 @@ public class FrenteCaixaRestAdapter {
     }
 
     @POST
+    @RolesAllowed({"admin", "loja"})
     @Path("/caixa/abrir")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -80,6 +84,7 @@ public class FrenteCaixaRestAdapter {
     }
 
     @POST
+    @RolesAllowed({"admin", "loja"})
     @Path("/caixa/fechar")
     @Operation(summary = "Fechar Caixa")
     @APIResponse(
@@ -96,6 +101,7 @@ public class FrenteCaixaRestAdapter {
     }
 
     @POST
+    @RolesAllowed({"admin", "loja"})
     @Path("/caixa/ultimoCaixa/operacaoCaixa/{lojaId}")
     @Operation(summary = "Insert OperacaoCaixa into the last opened Caixa")
     @APIResponse(
@@ -112,6 +118,7 @@ public class FrenteCaixaRestAdapter {
     }
 
     @DELETE
+    @RolesAllowed({"admin", "loja"})
     @Path("/venda/ultimoCaixa/{lojaId}")
     @Operation(summary = "Delete a venda with the localId")
     @APIResponse(
@@ -129,6 +136,7 @@ public class FrenteCaixaRestAdapter {
 
 
     @POST
+    @RolesAllowed({"admin"})
     @Path("/loja")
     @Operation(summary = "Cadastra Loja")
     @APIResponse(
@@ -145,6 +153,7 @@ public class FrenteCaixaRestAdapter {
     }
 
     @GET
+    @PermitAll
     @Path("/loja")
     @Operation(summary = "Get all lojas")
     @APIResponse(

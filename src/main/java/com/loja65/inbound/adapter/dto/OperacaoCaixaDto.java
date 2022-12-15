@@ -1,14 +1,17 @@
 package com.loja65.inbound.adapter.dto;
 
 import com.loja65.domain.enums.OperacaoCaixaEnum;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class OperacaoCaixaDto {
 
     @NotNull(message = "localOperacaoCaixaId não informado")

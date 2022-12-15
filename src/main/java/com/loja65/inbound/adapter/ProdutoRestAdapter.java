@@ -10,6 +10,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -27,6 +29,7 @@ public class ProdutoRestAdapter {
     ProdutoDtoPort produtoPort;
 
     @PUT
+    @RolesAllowed({"admin", "loja"})
     @Path("/{id}")
     @Operation(summary = "Update produto")
     @APIResponse(
@@ -44,6 +47,7 @@ public class ProdutoRestAdapter {
     }
 
     @GET
+    @PermitAll
     @Path("/codBarra")
     @Operation(summary = "Get produto By codBarra")
     @APIResponse(

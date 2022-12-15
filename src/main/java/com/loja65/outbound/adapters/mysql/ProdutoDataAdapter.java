@@ -41,5 +41,10 @@ public class ProdutoDataAdapter implements ProdutoPort {
        return mapper.produtoEntity2Produto(repository.findByCodBarra(codBarra));
     }
 
+    @Override
+    public Produto findByCodBarraAndLoja(String codBarra, Integer lojaId) {
+        return mapper.produtoEntity2Produto(repository.findByCodBarraAndLojaId(codBarra, lojaId));
+    }
+
 
 }

@@ -1,11 +1,14 @@
 package com.loja65.inbound.adapter.dto;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProdutovendaDto {
 
     private Integer produtoId;

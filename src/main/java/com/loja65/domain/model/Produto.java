@@ -1,11 +1,13 @@
 package com.loja65.domain.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Produto {
 
@@ -14,6 +16,7 @@ public class Produto {
     private String descricao;
     private Double valorUltVenda;
     private Double valor;
+    private Integer lojaId;
     private LocalDateTime DataUltVenda;
     private LocalDateTime createdAt;
 }

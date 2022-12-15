@@ -1,9 +1,7 @@
 package com.loja65.outbound.adapters.entity;
 
 import com.loja65.outbound.port.ProdutoPort;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "produto")
 @Table(name = "produto")
 public class ProdutoEntity{
@@ -32,6 +32,11 @@ public class ProdutoEntity{
 
     @Column(name = "valor",columnDefinition = "NUMERIC(18,2)")
     private Double valor;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "loja_id_fk")
+    private LojaEntity loja;
 
     @Column(name = "DataUltVenda",columnDefinition = "TIMESTAMP")
     private LocalDateTime DataUltVenda;

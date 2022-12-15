@@ -41,15 +41,17 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
 
         venda.setCaixaId(lastCaixa.getCaixaId());
         Produto produto = venda.getProduto();
-        Produto prodEntity = produtoPort.findByCodBarra(produto.getCodBarra());
+        Produto prodEntity = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaId);
         if(prodEntity == null) {
             produto.setCreatedAt(venda.getCreatedAt());
             produto.setValor(venda.getValorTotal()/venda.getQuantidade());
+            produto.setLojaId(loja.getLojaId());
             prodEntity = produtoPort.insert(produto);
         }
 
         prodEntity.setDataUltVenda(venda.getCreatedAt());
         prodEntity.setValorUltVenda(venda.getValorTotal()/venda.getQuantidade());
+        prodEntity.setDescricao(venda.getProduto().getDescricao());
         produtoPort.insert(prodEntity);
         venda.setProduto(prodEntity);
 
@@ -80,10 +82,6 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         return caixa;
     }
 
-    @Override
-    public ProdutoDto updateProduto(ProdutoDto produtoDto) {
-        return null;
-    }
 
     @Override
     @Transactional

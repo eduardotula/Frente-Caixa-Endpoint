@@ -16,6 +16,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -39,6 +40,7 @@ public class ConsultaRestAdapter {
 
 
     @GET
+    @PermitAll
     @Path("/venda/today/")
     @Operation(summary = "Get all vendas from today by the lojaId")
     @APIResponse(
@@ -54,6 +56,7 @@ public class ConsultaRestAdapter {
     }
 
     @GET
+    @PermitAll
     @Path("/venda/")
     @Operation(summary = "Get all vendas with filters ")
     @APIResponse(

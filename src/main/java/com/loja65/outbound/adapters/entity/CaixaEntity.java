@@ -4,9 +4,7 @@ import com.loja65.domain.model.Caixa;
 import com.loja65.domain.model.Loja;
 import com.loja65.domain.model.OperacaoCaixa;
 import com.loja65.domain.model.Venda;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
@@ -18,6 +16,8 @@ import java.util.List;
 @Table(name = "caixa")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CaixaEntity {
 
 

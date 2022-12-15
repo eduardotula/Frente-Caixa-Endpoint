@@ -1,15 +1,15 @@
 package com.loja65.domain.model;
 
 import com.loja65.domain.enums.OperacaoCaixaEnum;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
-@Builder
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OperacaoCaixa {
 
     private Integer operacaoCaixaId;

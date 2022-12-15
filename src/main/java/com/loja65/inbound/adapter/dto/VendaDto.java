@@ -1,13 +1,16 @@
 package com.loja65.inbound.adapter.dto;
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class VendaDto {
 
     @NotNull()

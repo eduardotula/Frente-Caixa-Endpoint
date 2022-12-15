@@ -1,10 +1,13 @@
 package com.loja65.domain.model;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Loja {
 
     private Integer lojaId;

@@ -1,6 +1,6 @@
 package com.loja65.inbound.adapter.dto;
 
-import lombok.Data;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
@@ -9,7 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProdutoDto {
 
     @NotNull(message = "produtoId não informado")
@@ -28,4 +31,6 @@ public class ProdutoDto {
 
     @NotNull(message = "valor não informado")
     private Double valor;
+
+    private LojaDto loja;
 }

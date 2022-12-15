@@ -1,9 +1,7 @@
 package com.loja65.outbound.adapters.entity;
 
 import com.loja65.domain.enums.OperacaoCaixaEnum;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +9,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "operacaoCaixa")
 @Table(name = "operacaoCaixa")
 public class OperacaoCaixaEntity {

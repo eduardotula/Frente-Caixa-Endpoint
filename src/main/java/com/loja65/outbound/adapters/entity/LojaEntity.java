@@ -1,9 +1,7 @@
 package com.loja65.outbound.adapters.entity;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +9,8 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "loja")
 @Table(name = "loja")
 public class LojaEntity {
@@ -37,6 +37,9 @@ public class LojaEntity {
 
     @OneToMany(mappedBy = "loja")
     private List<CaixaEntity> caixas;
+
+    @OneToMany(mappedBy = "loja")
+    private List<ProdutoEntity> produtos;
 
     @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
