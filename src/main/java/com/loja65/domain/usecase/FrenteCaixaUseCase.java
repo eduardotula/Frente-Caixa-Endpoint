@@ -56,7 +56,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         venda.setProduto(prodEntity);
         final var fVenda = vendaPort.insert(venda);
 
-        loja.setLastUpdated(LocalDateTime.now());
+        loja.setLastUpdated(defaultTimeZone.getSp());
         lojaPort.update(loja);
         return fVenda;
     }
@@ -135,7 +135,7 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         Loja loja = lojaPort.findLojaById(lojaId);
         if(Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + lojaId);
 
-        loja.setLastUpdated(LocalDateTime.now());
+        loja.setLastUpdated(defaultTimeZone.getSp());
         lojaPort.update(loja);
     }
 
