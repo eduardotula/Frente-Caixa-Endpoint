@@ -30,4 +30,5 @@ public class LojaDto {
     @Length(min = 1, max = 20, message = "tamanho de cep não permitido: min = 0, max = 20")
     private String cep;
 
+    private LocalDateTime lastUpdated;
 }

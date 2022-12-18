@@ -28,6 +28,11 @@ public class LojaAdapter implements LojaPort {
     }
 
     @Override
+    public Loja update(Loja loja) {
+        return mapper.lojaEntity2Loja(repository.save(mapper.loja2LojaEntity(loja)));
+    }
+
+    @Override
     public List<Loja> listAll(){
         return repository.findAll().stream().map(mapper::lojaEntity2Loja).collect(Collectors.toList());
     }

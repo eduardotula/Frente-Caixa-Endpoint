@@ -2,6 +2,7 @@ package com.loja65.domain.model;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -18,5 +19,6 @@ public class Loja {
     private String cep;
     private List<Caixa> caixas;
 
+    private LocalDateTime lastUpdated;
 
 }

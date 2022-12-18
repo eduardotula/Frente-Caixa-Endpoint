@@ -43,4 +43,7 @@ public class LojaEntity {
 
     @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
+
+    @Column(name = "lastUpdated", columnDefinition = "TIMESTAMP")
+    private LocalDateTime lastUpdated;
 }

@@ -27,6 +27,7 @@ public class VendaDto {
     private String tipoPagamento;
 
     @NotNull(message = "localVendaId não informado")
+    @Min(value = 1, message = "localVendaId não pode ser zerado")
     private Integer localVendaId;
 
     @Valid

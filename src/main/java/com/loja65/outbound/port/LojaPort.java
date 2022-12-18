@@ -9,5 +9,7 @@ public interface LojaPort {
     Loja findLojaById(Integer id);
     Loja insert(Loja loja);
 
+    Loja update(Loja loja);
+
     List<Loja> listAll();
 }

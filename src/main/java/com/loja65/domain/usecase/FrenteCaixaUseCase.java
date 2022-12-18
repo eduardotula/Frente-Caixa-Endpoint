@@ -9,6 +9,7 @@ import com.loja65.outbound.port.*;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,8 +55,11 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         prodEntity.setDescricao(venda.getProduto().getDescricao());
         produtoPort.insert(prodEntity);
         venda.setProduto(prodEntity);
+        final var fVenda = vendaPort.insert(venda);
 
-        return vendaPort.insert(venda);
+        loja.setLastUpdated(LocalDateTime.now());
+        lojaPort.update(loja);
+        return fVenda;
     }
 
     @Override
