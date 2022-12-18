@@ -2,7 +2,6 @@ package com.loja65.domain.usecase;
 
 import com.loja65.domain.model.*;
 import com.loja65.domain.utils.DefaultTimeZone;
-import com.loja65.inbound.adapter.dto.ProdutoDto;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import com.loja65.outbound.port.*;
 
@@ -128,6 +127,16 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         var lojas = lojaPort.listAll();
         if(Objects.isNull(lojas) || lojas.isEmpty()) throw new IllegalArgumentException("Nenhuma loja cadastrada");
         return lojas;
+    }
+
+    @Override
+    @Transactional
+    public void updateLojaLastUpdatedWithCurrentTime(Integer lojaId){
+        Loja loja = lojaPort.findLojaById(lojaId);
+        if(Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + lojaId);
+
+        loja.setLastUpdated(LocalDateTime.now());
+        lojaPort.update(loja);
     }
 
 }

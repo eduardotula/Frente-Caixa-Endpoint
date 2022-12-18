@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -166,6 +167,23 @@ public class FrenteCaixaRestAdapter {
     )
     public List<LojaDto> getAllLojas(){
         return frenteCaixaPort.getAllLojas().stream().map(lojaDtoMapper::loja2LojaDto).collect(Collectors.toList());
+    }
+
+    @PUT
+    @RolesAllowed({"admin", "loja"})
+    @Path("/loja/lastUpdated/{lojaId}/now")
+    @Operation(summary = "Update lastUpdatedLoja with current time")
+    @APIResponse(
+            description = "Update lastUpdatedLoja with current time",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT)
+            )
+    )
+    public Response updateLojaLastUpdatedWithCurrentTime(@PathParam("lojaId") Integer lojaId){
+        frenteCaixaPort.updateLojaLastUpdatedWithCurrentTime(lojaId);
+        return Response.ok().build();
     }
 
 }

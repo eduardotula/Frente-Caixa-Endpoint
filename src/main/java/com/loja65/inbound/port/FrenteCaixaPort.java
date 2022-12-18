@@ -20,4 +20,6 @@ public interface FrenteCaixaPort {
     Loja cadastrarLoja(Loja loja);
 
     List<Loja> getAllLojas();
+
+    void updateLojaLastUpdatedWithCurrentTime(Integer lojaId);
 }
