@@ -13,4 +13,6 @@ public interface ConsultasPort {
     List<Caixa> getAllCaixaTodayFromLoja(Integer lojaId);
 
     List<Venda> getAllVendasByFilter(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer lojaId, Pageable pageable);
+
+    LocalDateTime getLastUpdatedByLojaId(Integer lojaId);
 }

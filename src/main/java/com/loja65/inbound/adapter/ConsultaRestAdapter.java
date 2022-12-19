@@ -18,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -74,6 +71,22 @@ public class ConsultaRestAdapter {
                                              @QueryParam("lojaId") Integer lojaId){
         Pageable pageable = PageRequest.of(page,pageSize);
         return consultarVendasUseCase.getAllVendasByFilter(dataInicial,dataFinal,lojaId, pageable).stream().map(vendaDtoMapper::venda2VendaDto).collect(Collectors.toList());
+    }
+
+    @GET
+    @PermitAll
+    @Path("/loja/lastUpdated/{lojaId}")
+    @Operation(summary = "Get lastUpdated by lojaId ")
+    @APIResponse(
+            description = "Get lastUpdated by lojaId ",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT)
+            )
+    )
+    public LocalDateTime getLastUpdatedByLojaId(@PathParam("lojaId") Integer lojaId){
+        return consultarVendasUseCase.getLastUpdatedByLojaId(lojaId);
     }
 
 }

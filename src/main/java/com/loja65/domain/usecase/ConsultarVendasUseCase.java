@@ -4,6 +4,7 @@ import com.loja65.domain.model.Caixa;
 import com.loja65.domain.model.Venda;
 import com.loja65.inbound.port.ConsultasPort;
 import com.loja65.outbound.port.CaixaPort;
+import com.loja65.outbound.port.LojaPort;
 import com.loja65.outbound.port.VendaPort;
 import org.springframework.data.domain.Pageable;
 
@@ -21,6 +22,9 @@ public class ConsultarVendasUseCase implements ConsultasPort {
     @Inject
     VendaPort vendaPort;
 
+    @Inject
+    LojaPort lojaPort;
+
     @Override
     public List<Caixa> getAllCaixaTodayFromLoja(Integer lojaId) throws IllegalArgumentException, IllegalStateException{
         List<Caixa> caixas = caixaPort.findAllTodayByLojaId(lojaId);
@@ -35,5 +39,14 @@ public class ConsultarVendasUseCase implements ConsultasPort {
         if(Objects.isNull(vendas) || vendas.isEmpty()) throw new IllegalStateException("Nenhuma venda encontrada para filtros");
         return vendas;
     }
+
+    @Override
+    public LocalDateTime getLastUpdatedByLojaId(Integer lojaId){
+        var loja = lojaPort.findLojaById(lojaId);
+        if(Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + lojaId);
+
+        return loja.getLastUpdated();
+    }
+
 
 }
