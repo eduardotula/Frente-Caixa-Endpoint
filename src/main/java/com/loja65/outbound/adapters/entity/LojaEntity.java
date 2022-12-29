@@ -39,7 +39,7 @@ public class LojaEntity {
     private List<CaixaEntity> caixas;
 
     @OneToMany(mappedBy = "loja")
-    private List<ProdutoEntity> produtos;
+    private List<ConsultaPrecoProdutoEntity> consultaPrecoProdutos;
 
     @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;

@@ -19,4 +19,9 @@ public class Produto {
     private Integer lojaId;
     private LocalDateTime DataUltVenda;
     private LocalDateTime createdAt;
+
+    public void create(LocalDateTime createdAt, Integer lojaId){
+        this.createdAt = createdAt;
+        this.lojaId = lojaId;
+    }
 }

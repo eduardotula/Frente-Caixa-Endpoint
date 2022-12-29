@@ -24,6 +24,7 @@ public class OperacaoCaixaEntity {
     @ManyToOne
     @JoinColumn(name = "caixa_id_fk")
     private CaixaEntity caixa;
+
     @NotNull
     @Column(name = "localOperacaoCaixa_id",columnDefinition = "INTEGER")
     private Integer localOperacaoCaixaId;

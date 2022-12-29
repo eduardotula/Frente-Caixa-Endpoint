@@ -21,7 +21,7 @@ public class ProdutoEntity{
     private Integer produtoId;
 
     @NotNull
-    @Column(name = "codBarra",columnDefinition = "VARCHAR(14)", unique = true)
+    @Column(name = "codBarra",columnDefinition = "VARCHAR(14)")
     private String codBarra;
 
     @Column(name = "descricao",columnDefinition = "VARCHAR(80)")

@@ -8,9 +8,9 @@ import com.loja65.outbound.port.*;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequestScoped
 public class FrenteCaixaUseCase implements FrenteCaixaPort {
@@ -25,6 +25,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     ProdutoPort produtoPort;
     @Inject
     VendaPort vendaPort;
+    @Inject
+    ConsultaPrecoProdutoPort consultaPrecoProdutoPort;
     @Inject
     DefaultTimeZone defaultTimeZone;
 
@@ -43,9 +45,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         Produto produto = venda.getProduto();
         Produto prodEntity = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaId);
         if(prodEntity == null) {
-            produto.setCreatedAt(venda.getCreatedAt());
+            produto.create(venda.getCreatedAt(), loja.getLojaId());
             produto.setValor(venda.getValorTotal()/venda.getQuantidade());
-            produto.setLojaId(loja.getLojaId());
             prodEntity = produtoPort.insert(produto);
         }
 
@@ -137,6 +138,48 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
 
         loja.setLastUpdated(defaultTimeZone.getSp());
         lojaPort.update(loja);
+    }
+
+    @Override
+    @Transactional
+    public List<ConsultaPrecoProduto> getUpdatedsProdutosPrecosByLoja(Integer lojaId){
+        Loja loja = lojaPort.findLojaById(lojaId);
+        if(Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + lojaId);
+
+        List<ConsultaPrecoProduto> produtosAtt = consultaPrecoProdutoPort.findByLojaLojaId(lojaId);
+
+        consultaPrecoProdutoPort.deleteAllByLoja(lojaId);
+
+        return produtosAtt;
+    }
+
+    @Override
+    @Transactional
+    public void addUpdatedProdutosPrecosByDiferentLoja(ConsultaPrecoProduto consultaPrecoProduto){
+        Loja loja = lojaPort.findLojaById(consultaPrecoProduto.getLoja().getLojaId());
+        if(Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + consultaPrecoProduto.getLoja().getLojaId());
+
+        Produto produto = consultaPrecoProduto.getProduto();
+        Produto existProduto = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), loja.getLojaId());
+        if(Objects.isNull(existProduto)) {
+            produto.create(defaultTimeZone.getSp(), loja.getLojaId());
+            produto.setValor(consultaPrecoProduto.getNewValue());
+            consultaPrecoProduto.setProduto(produtoPort.insert(produto));
+        }else{
+            existProduto.setDescricao(consultaPrecoProduto.getProduto().getDescricao());
+            produtoPort.insert(existProduto);
+            consultaPrecoProduto.setProduto(existProduto);
+        }
+
+        List<Loja> lojas = lojaPort.listAll().stream().filter(l -> !Objects.equals(l.getLojaId(), consultaPrecoProduto.getLoja().getLojaId())).collect(Collectors.toList());
+
+        if(lojas.isEmpty()) throw new IllegalArgumentException("Não existem outras lojas cadastradas");
+
+        lojas.forEach(lojaConsultaInsert -> {
+            consultaPrecoProduto.setLoja(lojaConsultaInsert);
+            consultaPrecoProdutoPort.insert(consultaPrecoProduto);
+        });
+
     }
 
 }

@@ -1,11 +1,8 @@
 package com.loja65.inbound.port;
 
-import com.loja65.domain.model.Caixa;
-import com.loja65.domain.model.Loja;
-import com.loja65.domain.model.OperacaoCaixa;
-import com.loja65.domain.model.Venda;
-import com.loja65.inbound.adapter.dto.ProdutoDto;
+import com.loja65.domain.model.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface FrenteCaixaPort {
@@ -22,4 +19,10 @@ public interface FrenteCaixaPort {
     List<Loja> getAllLojas();
 
     void updateLojaLastUpdatedWithCurrentTime(Integer lojaId);
+
+    @Transactional
+    List<ConsultaPrecoProduto> getUpdatedsProdutosPrecosByLoja(Integer lojaId);
+
+    @Transactional
+    void addUpdatedProdutosPrecosByDiferentLoja(ConsultaPrecoProduto consultaPrecoProduto);
 }
