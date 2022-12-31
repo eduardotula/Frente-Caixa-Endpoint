@@ -1,15 +1,22 @@
 package com.loja65.outbound.adapters.mysql;
 
+import com.loja65.domain.model.PageParam;
+import com.loja65.domain.model.Pagination;
 import com.loja65.domain.model.Produto;
+import com.loja65.domain.model.filters.ProdutoFilter;
 import com.loja65.domain.utils.DefaultTimeZone;
 import com.loja65.outbound.adapters.entity.ProdutoEntity;
 import com.loja65.outbound.adapters.mappers.ProdutoEntityMapper;
 import com.loja65.outbound.adapters.repositories.ProdutoRepository;
 import com.loja65.outbound.port.ProdutoPort;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class ProdutoDataAdapter implements ProdutoPort {
@@ -44,6 +51,17 @@ public class ProdutoDataAdapter implements ProdutoPort {
     @Override
     public Produto findByCodBarraAndLoja(String codBarra, Integer lojaId) {
         return mapper.produtoEntity2Produto(repository.findByCodBarraAndLojaId(codBarra, lojaId));
+    }
+
+    @Override
+    public Pagination<Produto> findByFilters(PageParam params, ProdutoFilter produtoFilter) {
+
+        Pageable pageable = PageRequest.of(params.getPage(), params.getPageSize());
+
+        var page = repository.findByFilters(produtoFilter.getCodBarra(),
+                produtoFilter.getDescricao(), produtoFilter.getLojaId(), produtoFilter.getProdutoId(), pageable);
+        return new Pagination<Produto>(params.getPage(), params.getPageSize(),page.getTotalPages(), (int)page.getTotalElements(), params.getSortField(),
+                params.getSortType(), page.stream().map(mapper::produtoEntity2Produto).collect(Collectors.toList()));
     }
 
 

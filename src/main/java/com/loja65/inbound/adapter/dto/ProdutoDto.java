@@ -32,5 +32,5 @@ public class ProdutoDto {
     @NotNull(message = "valor não informado")
     private Double valor;
 
-    private LojaDto loja;
+    private Integer lojaId;
 }

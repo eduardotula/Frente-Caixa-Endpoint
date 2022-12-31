@@ -20,9 +20,4 @@ public interface FrenteCaixaPort {
 
     void updateLojaLastUpdatedWithCurrentTime(Integer lojaId);
 
-    @Transactional
-    List<ConsultaPrecoProduto> getUpdatedsProdutosPrecosByLoja(Integer lojaId);
-
-    @Transactional
-    void addUpdatedProdutosPrecosByDiferentLoja(ConsultaPrecoProduto consultaPrecoProduto);
 }
