@@ -4,6 +4,7 @@ import com.loja65.domain.model.PageParam;
 import com.loja65.domain.model.Pagination;
 import com.loja65.domain.model.Produto;
 import com.loja65.domain.model.filters.ProdutoFilter;
+import com.loja65.domain.utils.Json;
 import com.loja65.inbound.adapter.dto.ConsultaPrecoProdutoDto;
 import com.loja65.inbound.adapter.dto.ProdutoDto;
 import com.loja65.inbound.adapter.mappers.ConsultaPrecoProdutoDtoMapper;
@@ -37,7 +38,8 @@ public class ProdutoRestAdapter {
 
     @Inject
     ProdutoDtoMapper produtoDtoMapper;
-
+    @Inject
+    Json mapper;
     @Inject
     ProdutoDtoPort produtoPort;
 
@@ -86,7 +88,9 @@ public class ProdutoRestAdapter {
         ProdutoFilter produtoFilter = new ProdutoFilter(codBarra, descricao, lojaId, produtoId);
         Pagination<Produto> pagination = produtoPort.findbyFilters(pageParam, produtoFilter);
         Pagination<ProdutoDto> paginationDto = pagination.to(produtoDtoMapper::toDto);
-        return new PaginationResponse<>(paginationDto, produtoFilter);
+        var respo = new PaginationResponse<>(paginationDto, produtoFilter);
+        respo.getMetaInfo().setSearch(mapper.toMap(produtoFilter));
+        return respo;
     }
 
     @POST

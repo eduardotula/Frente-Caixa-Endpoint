@@ -63,6 +63,7 @@ public class ProdutoDataAdapter implements ProdutoPort {
 
         var page = repository.findByFilters(produtoFilter.getCodBarra(),
                 produtoFilter.getDescricao(), produtoFilter.getLojaId(), produtoFilter.getProdutoId(), pageable);
+
         return new Pagination<Produto>(params.getPage(), params.getPageSize(),page.getTotalPages(), (int)page.getTotalElements(), params.getSortField(),
                 params.getSortType(), page.stream().map(mapper::produtoEntity2Produto).collect(Collectors.toList()));
     }

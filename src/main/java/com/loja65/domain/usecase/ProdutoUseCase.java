@@ -32,6 +32,8 @@ public class ProdutoUseCase implements ProdutoDtoPort {
         var existProd = produtoPort.findById(produto.getProdutoId());
         if(Objects.isNull(existProd)) throw new IllegalArgumentException(String.format("Produto com id:%d não encontrado", produto.getProdutoId()));
         produto.setLojaId(existProd.getLojaId());
+
+        if(produto.getDataUltVenda() == null) produto.setDataUltVenda(existProd.getDataUltVenda());
         return produtoPort.insert(produto);
     }
 

@@ -31,5 +31,7 @@ public class ProdutoDto {
     @NotNull(message = "valor não informado")
     private Double valor;
 
+    private LocalDateTime dataUltVenda;
+
     private Integer lojaId;
 }
