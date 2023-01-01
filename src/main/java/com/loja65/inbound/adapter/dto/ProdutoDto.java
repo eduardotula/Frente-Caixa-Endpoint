@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ProdutoDto {
 
-    @NotNull(message = "produtoId não informado")
     private Integer produtoId;
 
     @NotBlank(message = "codBarra não informado")

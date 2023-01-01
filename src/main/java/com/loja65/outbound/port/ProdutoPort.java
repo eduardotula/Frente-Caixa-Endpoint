@@ -9,6 +9,8 @@ public interface ProdutoPort {
 
     Produto insert(Produto produto);
 
+    Produto findById(Integer produtoId);
+
     Produto findByCodBarra(String codBarra);
     Produto findByCodBarraAndLoja(String codBarra, Integer lojaId);
 

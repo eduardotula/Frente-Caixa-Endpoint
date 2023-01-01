@@ -11,11 +11,9 @@ import com.loja65.outbound.adapters.repositories.ProdutoRepository;
 import com.loja65.outbound.port.ProdutoPort;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -41,6 +39,11 @@ public class ProdutoDataAdapter implements ProdutoPort {
             throw new IllegalStateException("Falha ao inserir Produto :" + produto.getCodBarra() + ": " + e.getMessage());
         }
         return mapper.produtoEntity2Produto(prodEntity);
+    }
+
+    @Override
+    public Produto findById(Integer produtoId){
+        return mapper.produtoEntity2Produto(repository.findById(produtoId).orElse(null));
     }
 
     @Override

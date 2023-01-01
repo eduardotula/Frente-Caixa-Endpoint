@@ -29,6 +29,9 @@ public class ProdutoUseCase implements ProdutoDtoPort {
 
     @Override
     public Produto updateProduto(Produto produto) {
+        var existProd = produtoPort.findById(produto.getProdutoId());
+        if(Objects.isNull(existProd)) throw new IllegalArgumentException(String.format("Produto com id:%d não encontrado", produto.getProdutoId()));
+        produto.setLojaId(existProd.getLojaId());
         return produtoPort.insert(produto);
     }
 

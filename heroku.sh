@@ -26,6 +26,7 @@
 # =============================================================================
 
 echo DB_HEROKU_SPLIT=[$DB_HEROKU_SPLIT]
+echo ${DATABASE_URL#*@}
 
 # check for 'true' in string (case insensitive)
 if [[ "${DB_HEROKU_SPLIT,,}" == "true" ]]; then
