@@ -19,7 +19,7 @@ public interface ProdutoRepository extends CrudRepository<ProdutoEntity, Integer
 
         @Query(value = "from produto p WHERE " +
             "(:codBarra IS NULL OR p.codBarra LIKE cast(:codBarra||'%' as text)) " +
-            "AND (:descricao IS NULL OR UPPER(p.descricao) LIKE cast('%'||UPPER(:descricao)||'%' as text)) " +
+            "AND (:descricao IS NULL OR UPPER(p.descricao) LIKE cast('%'||UPPER(cast(:descricao as text))||'%' as text)) " +
             "AND (:lojaId IS NULL OR p.loja.lojaId = :lojaId) " +
             "AND (:produtoId IS NULL OR p.produtoId = :produtoId)")
     Page<ProdutoEntity> findByFilters(@Param("codBarra") String codBarra,

@@ -12,6 +12,9 @@ import java.util.List;
 public interface ProdutoDtoPort {
 
     Produto updateProduto(Produto produto);
+
+    Produto createProduto(Produto produto);
+
     Produto findByCodbarra(String codBarra);
 
     Pagination<Produto> findbyFilters(PageParam params, ProdutoFilter produtoFilter);

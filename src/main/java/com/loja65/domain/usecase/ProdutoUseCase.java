@@ -30,30 +30,46 @@ public class ProdutoUseCase implements ProdutoDtoPort {
     @Override
     public Produto updateProduto(Produto produto) {
         var existProd = produtoPort.findById(produto.getProdutoId());
-        if(Objects.isNull(existProd)) throw new IllegalArgumentException(String.format("Produto com id:%d não encontrado", produto.getProdutoId()));
+        if (Objects.isNull(existProd))
+            throw new IllegalArgumentException(String.format("Produto com id:%d não encontrado", produto.getProdutoId()));
         produto.setLojaId(existProd.getLojaId());
 
-        if(produto.getDataUltVenda() == null) produto.setDataUltVenda(existProd.getDataUltVenda());
+        if (produto.getCreatedAt() == null) produto.setCreatedAt(existProd.getCreatedAt());
+        if (produto.getDataUltVenda() == null) produto.setDataUltVenda(existProd.getDataUltVenda());
+        return produtoPort.insert(produto);
+    }
+
+    @Override
+    public Produto createProduto(Produto produto) {
+        Produto existProd = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), produto.getLojaId());
+        if (Objects.nonNull(existProd)) throw new IllegalArgumentException("Produto já cadastrado nesta loja");
+
+        Loja loja = lojaPort.findLojaById(produto.getLojaId());
+        if (Objects.isNull(loja))
+            throw new IllegalArgumentException(String.format("Loja com id: %d não existente", produto.getLojaId()));
+
+        produto.create(defaultTimeZone.getSp(), loja.getLojaId());
         return produtoPort.insert(produto);
     }
 
     @Override
     public Produto findByCodbarra(String codBarra) {
         Produto produto = produtoPort.findByCodBarra(codBarra);
-        if(Objects.isNull(produto)) throw new IllegalStateException(String.format("Produto não encontrado com codBarra: %s", codBarra));
+        if (Objects.isNull(produto))
+            throw new IllegalStateException(String.format("Produto não encontrado com codBarra: %s", codBarra));
         return produto;
     }
 
     @Override
-    public Pagination<Produto> findbyFilters(PageParam params, ProdutoFilter produtoFilter){
+    public Pagination<Produto> findbyFilters(PageParam params, ProdutoFilter produtoFilter) {
         return produtoPort.findByFilters(params, produtoFilter);
     }
 
     @Override
     @Transactional
-    public List<ConsultaPrecoProduto> getUpdatedsProdutosPrecosByLoja(Integer lojaId){
+    public List<ConsultaPrecoProduto> getUpdatedsProdutosPrecosByLoja(Integer lojaId) {
         Loja loja = lojaPort.findLojaById(lojaId);
-        if(Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + lojaId);
+        if (Objects.isNull(loja)) throw new IllegalArgumentException("Loja não encontrada com id: " + lojaId);
 
         List<ConsultaPrecoProduto> produtosAtt = consultaPrecoProdutoPort.findByLojaLojaId(lojaId);
 
@@ -66,27 +82,31 @@ public class ProdutoUseCase implements ProdutoDtoPort {
     @Transactional
     public void addUpdatedProdutosPrecosByDiferentLoja(ConsultaPrecoProduto consultaPrecoProduto, List<Integer> lojaIds){
         List<Loja> insertLojas = new ArrayList<>();
-
         List<Loja> allLojas = lojaPort.listAll();
 
         allLojas.stream().forEach(l -> {
-            if(!lojaIds.contains(l.getLojaId())) insertLojas.add(l);
+            if (!lojaIds.contains(l.getLojaId())) insertLojas.add(l);
         });
 
-        if(insertLojas.isEmpty()) throw new IllegalArgumentException("Não existem outras lojas cadastradas");
+        if (insertLojas.isEmpty()) throw new IllegalArgumentException("Não existem outras lojas cadastradas");
 
         insertLojas.forEach(lojaConsultaInsert -> {
+
             Produto produto = consultaPrecoProduto.getProduto();
             Produto existProduto = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaConsultaInsert.getLojaId());
-            if(Objects.isNull(existProduto)) {
+
+            if (Objects.isNull(existProduto)) {
                 produto.create(defaultTimeZone.getSp(), lojaConsultaInsert.getLojaId());
                 produto.setValor(consultaPrecoProduto.getNewValue());
                 consultaPrecoProduto.setProduto(produtoPort.insert(produto));
-            }else{
+
+            } else {
                 existProduto.setDescricao(consultaPrecoProduto.getProduto().getDescricao());
+                existProduto.setValor(consultaPrecoProduto.getNewValue());
                 produtoPort.insert(existProduto);
                 consultaPrecoProduto.setProduto(existProduto);
             }
+
             consultaPrecoProduto.setLoja(lojaConsultaInsert);
             consultaPrecoProdutoPort.insert(consultaPrecoProduto);
         });

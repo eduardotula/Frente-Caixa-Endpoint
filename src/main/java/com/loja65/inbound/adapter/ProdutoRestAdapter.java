@@ -64,6 +64,16 @@ public class ProdutoRestAdapter {
         return produtoDtoMapper.toDto(produtoPort.updateProduto(produto));
     }
 
+    @POST
+    @RolesAllowed({"admin", "loja"})
+    @Path("/")
+    @Operation(summary = "Create Produto")
+    public ProdutoDto createProduto(@QueryParam("lojaId") Integer lojaId, @Valid ProdutoDto produtoDto){
+        produtoDto.setLojaId(lojaId);
+        Produto produto = produtoDtoMapper.toModel(produtoDto);
+        return produtoDtoMapper.toDto(produtoPort.createProduto(produto));
+    }
+
     @GET
     @RolesAllowed({"loja", "admin"})
     @Path("/")
