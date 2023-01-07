@@ -135,8 +135,6 @@ public class FrenteCaixaRestAdapter {
         return Response.ok().build();
     }
 
-
-
     @POST
     @RolesAllowed({"admin"})
     @Path("/loja")

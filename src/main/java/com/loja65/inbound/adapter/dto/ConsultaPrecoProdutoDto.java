@@ -29,4 +29,6 @@ public class ConsultaPrecoProdutoDto {
     @Min(value = 0, message = "novo valor deve ser maior ou igual a zero")
     private Double newValue;
 
+    private boolean notification = false;
+
 }

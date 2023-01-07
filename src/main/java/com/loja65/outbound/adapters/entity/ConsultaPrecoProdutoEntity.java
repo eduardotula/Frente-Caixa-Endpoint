@@ -38,4 +38,7 @@ public class ConsultaPrecoProdutoEntity {
     @Column(name = "created_at", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
+    @Column(name = "notification", columnDefinition = "BOOLEAN", nullable = false)
+    private boolean notification = false;
+
 }

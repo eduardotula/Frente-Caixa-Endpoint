@@ -18,5 +18,6 @@ public class ConsultaPrecoProduto {
     private Produto produto;
     private Loja loja;
     private LocalDateTime createdAt;
+    private boolean notification = false;
 
 }
