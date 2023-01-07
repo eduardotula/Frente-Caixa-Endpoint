@@ -1,5 +1,7 @@
 mvn clean package
 
+heroku container:login
+
 docker-compose build --progress=plain
 
 docker-compose build 
