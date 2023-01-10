@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,10 +40,15 @@ public class VendaAdapter implements VendaPort {
     }
 
     @Override
-    public void deleteVendaByLocalId(Integer lojaId, Integer localId) {
-        List<VendaEntity> venda = repository.findByLojaIdAndlocalVendaId(lojaId,localId);
-        if(Objects.isNull(venda)) throw new IllegalStateException("Vendas não encontrada com ids");
-        venda.forEach(v -> repository.deleteById(v.getVendaId()));
+    public void deleteVenda(Venda venda){
+        repository.deleteById(venda.getVendaId());
+    }
+
+    @Override
+    public List<Venda> findByLojaIdAndlocalVendaId(Integer lojaId, Integer localId){
+        List<VendaEntity> vendas = repository.findByLojaIdAndlocalVendaId(lojaId,localId);
+        if(vendas.isEmpty()) return new ArrayList<>();
+        return vendas.stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList());
     }
 
 }

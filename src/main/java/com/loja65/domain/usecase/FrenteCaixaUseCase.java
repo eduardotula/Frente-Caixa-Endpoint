@@ -64,7 +64,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
 
     @Override
     public void apagarVenda(Integer lojaId, Integer localId) throws IllegalArgumentException, IllegalStateException{
-        vendaPort.deleteVendaByLocalId(lojaId,localId);
+        List<Venda> vendas = vendaPort.findByLojaIdAndlocalVendaId(lojaId,localId);
+        vendas.forEach(venda -> vendaPort.deleteVenda(venda));
     }
 
     @Override

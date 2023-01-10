@@ -12,6 +12,7 @@ public interface VendaPort {
 
     List<Venda> getVendasByFilter(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer lojaId, Pageable pageable);
 
-    void deleteVendaByLocalId(Integer lojaId, Integer localId);
+    void deleteVenda(Venda venda);
 
+    List<Venda> findByLojaIdAndlocalVendaId(Integer lojaId, Integer localId);
 }
