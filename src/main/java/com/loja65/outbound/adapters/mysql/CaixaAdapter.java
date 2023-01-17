@@ -1,22 +1,24 @@
 package com.loja65.outbound.adapters.mysql;
 
 import com.loja65.domain.model.Caixa;
+import com.loja65.domain.model.PageParam;
+import com.loja65.domain.model.Pagination;
+import com.loja65.domain.model.filters.CaixaFilter;
 import com.loja65.domain.utils.DefaultTimeZone;
 import com.loja65.outbound.adapters.entity.CaixaEntity;
 import com.loja65.outbound.adapters.mappers.CaixaEntityMapper;
 import com.loja65.outbound.adapters.repositories.CaixaRepository;
 import com.loja65.outbound.port.CaixaPort;
-import net.bytebuddy.asm.Advice;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class CaixaAdapter implements CaixaPort {
@@ -59,8 +61,23 @@ public class CaixaAdapter implements CaixaPort {
         }catch (Exception e){
             throw new IllegalArgumentException("Caixa de loja não encontrado");
         }
-        return mapper.caixaEntity2Caixa(caixaEntity);
+        return caixaEntity.stream().map(mapper::caixaEntity2Caixa).collect(Collectors.toList());
     }
 
+    @Override
+    public Pagination<Caixa> findByFilters(CaixaFilter filters, PageParam pageParam){
+        Pageable pageable = PageRequest.of(pageParam.getPage(), pageParam.getPageSize());
+
+        var page = repository.findByFilters(filters.getDataInicial(), filters.getDataFinal(), filters.getLojaId(), filters.getFuncionario(),
+                pageable);
+
+        return new Pagination<Caixa>(pageParam.getPage(), pageParam.getPageSize(),page.getTotalPages(), (int)page.getTotalElements(), pageParam.getSortField(),
+                pageParam.getSortType(), page.stream().map(mapper::caixaEntity2Caixa).collect(Collectors.toList()));
+    }
+
+    @Override
+    public List<String> listAllFuncionarios(){
+        return repository.listAllFuncionario();
+    }
 
 }

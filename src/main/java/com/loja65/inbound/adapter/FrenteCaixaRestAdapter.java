@@ -9,7 +9,6 @@ import com.loja65.inbound.adapter.mappers.CaixaDtoMapper;
 import com.loja65.inbound.adapter.mappers.LojaDtoMapper;
 import com.loja65.inbound.adapter.mappers.OperacaoCaixaDtoMapper;
 import com.loja65.inbound.adapter.mappers.VendaDtoMapper;
-import com.loja65.inbound.adapter.mappers.consulta.VendaConsultaMapper;
 import com.loja65.inbound.port.FrenteCaixaPort;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -60,8 +59,8 @@ public class FrenteCaixaRestAdapter {
             )
     )
     public VendaDto inserirVendaUltimoCaixaAberto(@PathParam("lojaId") Integer lojaId, @Valid VendaDto vendaDto){
-        Venda venda = vendaDtoMapper.vendaDto2Venda(vendaDto);
-        return vendaDtoMapper.venda2VendaDto(frenteCaixaPort.inserirVendaUltimoCaixaAberto(lojaId, venda));
+        Venda venda = vendaDtoMapper.toModel(vendaDto);
+        return vendaDtoMapper.toDto(frenteCaixaPort.inserirVendaUltimoCaixaAberto(lojaId, venda));
     }
 
     @POST

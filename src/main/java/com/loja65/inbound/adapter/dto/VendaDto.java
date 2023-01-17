@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VendaDto {
 
-    @NotNull()
+    private Integer vendaId;
+    @NotNull(message = "quantidade não informado")
     private Integer quantidade;
     @NotNull(message = "valorDinheiro não informado")
     private Double valorDinheiro;

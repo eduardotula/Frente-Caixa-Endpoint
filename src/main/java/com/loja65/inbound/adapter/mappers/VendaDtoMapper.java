@@ -10,6 +10,6 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public interface VendaDtoMapper {
 
-    Venda vendaDto2Venda(VendaDto venda);
-    VendaDto venda2VendaDto(Venda venda);
+    Venda toModel(VendaDto venda);
+    VendaDto toDto(Venda venda);
 }

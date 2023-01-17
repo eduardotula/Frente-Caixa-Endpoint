@@ -1,8 +1,8 @@
 package com.loja65.inbound.port;
 
-import com.loja65.domain.model.Caixa;
-import com.loja65.domain.model.Loja;
-import com.loja65.domain.model.Venda;
+import com.loja65.domain.model.*;
+import com.loja65.domain.model.filters.CaixaFilter;
+import com.loja65.domain.model.filters.VendaFilter;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
@@ -10,9 +10,13 @@ import java.util.List;
 
 public interface ConsultasPort {
 
-    List<Caixa> getAllCaixaTodayFromLoja(Integer lojaId);
+    TotalVendasPeriod getTotalVendasPeriodWithFilters(VendaFilter filter);
 
-    List<Venda> getAllVendasByFilter(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer lojaId, Pageable pageable);
+    Pagination<Venda> getVendasByFilter(VendaFilter filter, PageParam pageParam);
+
+    Pagination<Caixa> getCaixasByFilter(CaixaFilter filter, PageParam pageParam);
 
     LocalDateTime getLastUpdatedByLojaId(Integer lojaId);
+
+    List<String> getAllFuncionarios();
 }

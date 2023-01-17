@@ -1,18 +1,21 @@
 package com.loja65.outbound.adapters.mysql;
 
+import com.loja65.domain.model.PageParam;
+import com.loja65.domain.model.Pagination;
+import com.loja65.domain.model.TotalVendasPeriod;
 import com.loja65.domain.model.Venda;
+import com.loja65.domain.model.filters.VendaFilter;
 import com.loja65.outbound.adapters.entity.VendaEntity;
 import com.loja65.outbound.adapters.mappers.VendaEntityMapper;
 import com.loja65.outbound.adapters.repositories.VendaRepository;
 import com.loja65.outbound.port.VendaPort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -34,10 +37,6 @@ public class VendaAdapter implements VendaPort {
         return mapper.vendaEntity2Venda(v);
     }
 
-    @Override
-    public List<Venda> getVendasByFilter(LocalDateTime dataInicial, LocalDateTime dataFinal, Integer lojaId, Pageable pageable) {
-        return repository.findAllByCreatedAtBetweenAndLojaLojaId(dataInicial,dataFinal,lojaId, pageable).stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList());
-    }
 
     @Override
     public void deleteVenda(Venda venda){
@@ -45,10 +44,31 @@ public class VendaAdapter implements VendaPort {
     }
 
     @Override
+    public Pagination<Venda> findByFilters(VendaFilter filters, PageParam pageParam){
+        Pageable pageable = PageRequest.of(pageParam.getPage(), pageParam.getPageSize());
+
+        var page = repository.findByFilters(filters.getDataInicial(), filters.getDataFinal(), filters.getLojaId(), filters.getFuncionario(),
+                pageable);
+
+        return new Pagination<Venda>(pageParam.getPage(), pageParam.getPageSize(),page.getTotalPages(), (int)page.getTotalElements(), pageParam.getSortField(),
+                pageParam.getSortType(), page.stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList()));
+    }
+
+    @Override
     public List<Venda> findByLojaIdAndlocalVendaId(Integer lojaId, Integer localId){
         List<VendaEntity> vendas = repository.findByLojaIdAndlocalVendaId(lojaId,localId);
         if(vendas.isEmpty()) return new ArrayList<>();
         return vendas.stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList());
+    }
+
+    @Override
+    public TotalVendasPeriod findTotalVendasPeriodWithFilters(VendaFilter filter){
+        try{
+            Object[] total = (Object[])repository.getSumVendasPeriodWithFilters(filter.getDataInicial(),filter.getDataFinal(),filter.getLojaId(),filter.getFuncionario());
+            return new TotalVendasPeriod((Double)total[0], (Double)total[1], (Double)total[2]);
+        }catch (Exception e){
+         throw new IllegalStateException(String.format("Falha ao buscar total de vendas err:%s",e.getMessage()));
+        }
     }
 
 }

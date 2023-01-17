@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OperacaoCaixaDto {
 
+    private Integer operacaoCaixaId;
     @NotNull(message = "localOperacaoCaixaId não informado")
     private Integer localOperacaoCaixaId;
 
