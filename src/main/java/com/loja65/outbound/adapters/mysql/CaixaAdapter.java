@@ -36,10 +36,10 @@ public class CaixaAdapter implements CaixaPort {
     }
 
     @Override
-    public Caixa findLastCaixaByLojaId(Integer lojaId) {
+    public Caixa findCaixaByLojaIdAndLocalCaixaId(Integer lojaId, Integer localCaixaId) {
         CaixaEntity caixaEntity = null;
         try{
-            caixaEntity = repository.findFistByLojaLojaIdOrderByCaixaIdDesc(PageRequest.of(0,1),lojaId);
+            caixaEntity = repository.findByLojaLojaIdAndLocalCaixaId(lojaId, localCaixaId);
         }catch (Exception e){
             throw new IllegalArgumentException("Caixa de loja não encontrado");
         }

@@ -1,8 +1,6 @@
 package com.loja65.outbound.adapters.repositories;
 
-import com.loja65.domain.model.Caixa;
 import com.loja65.outbound.adapters.entity.CaixaEntity;
-import com.loja65.outbound.adapters.entity.VendaEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +13,7 @@ import java.util.List;
 public interface CaixaRepository extends JpaRepository<CaixaEntity, Integer> {
 
 
-    CaixaEntity findFistByLojaLojaIdOrderByCaixaIdDesc(Pageable pageable, Integer lojaId);
+    CaixaEntity findByLojaLojaIdAndLocalCaixaId(Integer lojaId, Integer localCaixaId);
     CaixaEntity findByCaixaId(Integer caixaId);
 
     //@Query("select c from Caixa c where c.createdAt ")

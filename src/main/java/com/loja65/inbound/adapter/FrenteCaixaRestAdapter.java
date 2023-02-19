@@ -58,9 +58,9 @@ public class FrenteCaixaRestAdapter {
                     schema = @Schema(type = SchemaType.OBJECT)
             )
     )
-    public VendaDto inserirVendaUltimoCaixaAberto(@PathParam("lojaId") Integer lojaId, @Valid VendaDto vendaDto){
+    public VendaDto saveVendaByLocalCaixaIdAndLojaId(@QueryParam("localCaixaId") Integer localCaixaId, @PathParam("lojaId") Integer lojaId, @Valid VendaDto vendaDto){
         Venda venda = vendaDtoMapper.toModel(vendaDto);
-        return vendaDtoMapper.toDto(frenteCaixaPort.inserirVendaUltimoCaixaAberto(lojaId, venda));
+        return vendaDtoMapper.toDto(frenteCaixaPort.saveVendaByLocalCaixaIdAndLoja(lojaId, localCaixaId, venda));
     }
 
     @POST
@@ -102,7 +102,7 @@ public class FrenteCaixaRestAdapter {
 
     @POST
     @RolesAllowed({"admin", "loja"})
-    @Path("/caixa/ultimoCaixa/operacaoCaixa/{lojaId}")
+    @Path("/caixa/operacaoCaixa/{lojaId}")
     @Operation(summary = "Insert OperacaoCaixa into the last opened Caixa")
     @APIResponse(
             description = "Insert OperacaoCaixa into the last opened Caixa",
@@ -112,9 +112,9 @@ public class FrenteCaixaRestAdapter {
                     schema = @Schema(type = SchemaType.OBJECT)
             )
     )
-    public OperacaoCaixaDto addOperacaoLastCaixa(@PathParam("lojaId") Integer lojaId, @Valid OperacaoCaixaDto operacaoCaixaDto){
+    public OperacaoCaixaDto addOperacaoLastCaixa(@QueryParam("localCaixaId") Integer localCaixaId, @PathParam("lojaId") Integer lojaId, @Valid OperacaoCaixaDto operacaoCaixaDto){
         OperacaoCaixa operacaoCaixa = operacaoCaixaDtoMapper.operacaoCaixaDto2OperacaoCaixa(operacaoCaixaDto);
-        return operacaoCaixaDtoMapper.operacaoCaixa2OperacaoCaixaDto(frenteCaixaPort.addOperacaoLastCaixa(operacaoCaixa, lojaId));
+        return operacaoCaixaDtoMapper.operacaoCaixa2OperacaoCaixaDto(frenteCaixaPort.addOperacaoByLocalCaixaIdAndLojaId(operacaoCaixa, lojaId, localCaixaId));
     }
 
     @DELETE

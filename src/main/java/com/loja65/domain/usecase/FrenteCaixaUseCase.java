@@ -8,11 +8,8 @@ import com.loja65.outbound.port.*;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RequestScoped
 public class FrenteCaixaUseCase implements FrenteCaixaPort {
@@ -34,12 +31,12 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
 
     @Override
     @Transactional
-    public Venda inserirVendaUltimoCaixaAberto(Integer lojaId, Venda venda) throws IllegalArgumentException, IllegalStateException{
+    public Venda saveVendaByLocalCaixaIdAndLoja(Integer lojaId, Integer localCaixaId, Venda venda) throws IllegalArgumentException, IllegalStateException{
         Loja loja = lojaPort.findLojaById(lojaId);
         if(loja == null) throw new IllegalArgumentException("Nenhuma loja localizada por id");
 
-        Caixa lastCaixa = caixaPort.findLastCaixaByLojaId(lojaId);
-        if(lastCaixa == null || lastCaixa.getStatus().equals(Caixa.CaixaStatus.FECHADO)) throw new IllegalArgumentException("Nenhum caixa aberto encontrado");
+        Caixa lastCaixa = caixaPort.findCaixaByLojaIdAndLocalCaixaId(lojaId, localCaixaId);
+        if(lastCaixa == null || lastCaixa.getStatus().equals(Caixa.CaixaStatus.FECHADO)) throw new IllegalArgumentException(String.format("Nenhum caixa aberto com localCaixaId: %d encontrado", localCaixaId));
 
         venda.setCaixaId(lastCaixa.getCaixaId());
         Produto produto = venda.getProduto();
@@ -71,8 +68,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     @Override
     @Transactional
     public Caixa abrirCaixa(Caixa caixa) throws IllegalArgumentException, IllegalStateException {
-        Caixa lastCaixa = caixaPort.findLastCaixaByLojaId(caixa.getLojaId());
-        if(lastCaixa!=null && lastCaixa.getStatus().equals(Caixa.CaixaStatus.ABERTO) ) throw new IllegalArgumentException("Ultimo caixa já aberto");
+        Caixa lastCaixa = caixaPort.findCaixaByLojaIdAndLocalCaixaId(caixa.getLojaId(), caixa.getLocalCaixaId());
+        if(lastCaixa!=null && lastCaixa.getStatus().equals(Caixa.CaixaStatus.ABERTO) ) throw new IllegalArgumentException(String.format("Caixa com localCaixaId: %d já aberto", caixa.getLocalCaixaId()));
 
         Loja loja = lojaPort.findLojaById(caixa.getLojaId());
         if(loja == null) throw new IllegalArgumentException("Nenhuma loja localizada por id");
@@ -91,8 +88,8 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
     @Override
     @Transactional
     public Caixa fecharCaixa(Caixa caixa) throws IllegalArgumentException, IllegalStateException{
-        Caixa lastCaixa = caixaPort.findLastCaixaByLojaId(caixa.getLojaId());
-        if(lastCaixa!=null && lastCaixa.getStatus().equals(Caixa.CaixaStatus.FECHADO)) throw new IllegalArgumentException("Ultimo caixa já fechado");
+        Caixa lastCaixa = caixaPort.findCaixaByLojaIdAndLocalCaixaId(caixa.getLojaId(), caixa.getLocalCaixaId());
+        if(lastCaixa!=null && lastCaixa.getStatus().equals(Caixa.CaixaStatus.FECHADO)) throw new IllegalArgumentException(String.format("Caixa com localCaixaId: %d já fechado", caixa.getLocalCaixaId()));
 
         Loja loja = lojaPort.findLojaById(caixa.getLojaId());
         if(loja == null) throw new IllegalArgumentException("Nenhuma loja localizada por id");
@@ -107,12 +104,12 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
 
     @Override
     @Transactional
-    public OperacaoCaixa addOperacaoLastCaixa(OperacaoCaixa operacaoCaixa, Integer lojaId) {
+    public OperacaoCaixa addOperacaoByLocalCaixaIdAndLojaId(OperacaoCaixa operacaoCaixa, Integer lojaId, Integer localCaixaId) {
         Loja loja = lojaPort.findLojaById(lojaId);
         if(loja == null) throw new IllegalArgumentException("Nenhuma loja localizada por id");
 
-        Caixa lastCaixa = caixaPort.findLastCaixaByLojaId(lojaId);
-        if(lastCaixa == null) throw new IllegalArgumentException("Nenhum caixa aberto encontrado");
+        Caixa lastCaixa = caixaPort.findCaixaByLojaIdAndLocalCaixaId(lojaId, localCaixaId);
+        if(lastCaixa == null) throw new IllegalArgumentException(String.format("Nenhum caixa aberto com localCaixaId: %d encontrado", localCaixaId));
         operacaoCaixa.setCaixaId(lastCaixa.getCaixaId());
 
         return operacaoCaixaPort.insert(operacaoCaixa);

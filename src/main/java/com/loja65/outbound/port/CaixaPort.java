@@ -10,7 +10,7 @@ import java.util.List;
 public interface CaixaPort {
 
     Caixa insert(Caixa caixa);
-    Caixa findLastCaixaByLojaId(Integer lojaId);
+    Caixa findCaixaByLojaIdAndLocalCaixaId(Integer lojaId, Integer localCaixaId);
     Caixa findByCaixaId(Integer caixaId);
     List<Caixa> findAllTodayByLojaId(Integer lojaId);
 
