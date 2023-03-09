@@ -6,7 +6,8 @@ public enum TipoPagamentoEnum {
     PIX,
     DINHEIRO,
     CARTAO,
-    CARTAO_DINHEIRO;
+    CARTAO_DINHEIRO,
+    TROCA;
 
 
 

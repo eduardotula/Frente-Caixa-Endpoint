@@ -15,14 +15,17 @@ public class VendaDto {
 
     private Integer vendaId;
     @NotNull(message = "quantidade não informado")
+    @Min(value = 0, message = "quantidade não pode ser negativo")
     private Integer quantidade;
     @NotNull(message = "valorDinheiro não informado")
+    @Min(value = 0, message = "valorDinheiro não pode ser negativo")
     private Double valorDinheiro;
     @NotNull(message = "valorCartão não informado")
+    @Min(value = 0, message = "valorCartao não pode ser negativo")
     private Double valorCartao;
     @NotNull(message = "valorTotal não informado")
+    @Min(value = 0, message = "valorTotal não pode ser negativo")
     private Double valorTotal;
-
     @NotBlank(message = "Forma de pagamento não informada")
     @Pattern(regexp = "(DINHEIRO|CARTAO|PIX|CARTAO_DINHEIRO)", message = "Forma de pagamento inválida (DINHEIRO|CARTAO|PIX|CARTAO_DINHEIRO)")
     private String tipoPagamento;

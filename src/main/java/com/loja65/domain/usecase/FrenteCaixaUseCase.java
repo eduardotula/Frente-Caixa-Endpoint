@@ -1,5 +1,6 @@
 package com.loja65.domain.usecase;
 
+import com.loja65.domain.enums.TipoPagamentoEnum;
 import com.loja65.domain.model.*;
 import com.loja65.domain.utils.DefaultTimeZone;
 import com.loja65.inbound.port.FrenteCaixaPort;
@@ -57,6 +58,16 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         loja.setLastUpdated(defaultTimeZone.getSp());
         lojaPort.update(loja);
         return fVenda;
+    }
+
+    @Override
+    @Transactional
+    public Venda saveTrocaOperation(Integer lojaId, Integer localCaixaId, Venda venda){
+        venda.setTipoPagamento(TipoPagamentoEnum.TROCA);
+        venda.setValorCartao(venda.getValorCartao() < 0 ? venda.getValorCartao() : venda.getValorCartao() * -1);
+        venda.setValorDinheiro(venda.getValorDinheiro() < 0 ? venda.getValorDinheiro() : venda.getValorDinheiro() * -1);
+        venda.setValorTotal(venda.getValorTotal() < 0 ? venda.getValorTotal() : venda.getValorTotal() * -1);
+        return saveVendaByLocalCaixaIdAndLoja(lojaId,localCaixaId, venda);
     }
 
     @Override

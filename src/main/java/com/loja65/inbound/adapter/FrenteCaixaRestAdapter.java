@@ -135,6 +135,23 @@ public class FrenteCaixaRestAdapter {
     }
 
     @POST
+    @RolesAllowed({"admin", "loja"})
+    @Path("/venda/ultimoCaixa/troca/{lojaId}")
+    @Operation(summary = "Save troca operation")
+    @APIResponse(
+            description = "Save troca operation",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT)
+            )
+    )
+    public VendaDto saveVendaTroca(@QueryParam("localCaixaId") Integer localCaixaId, @PathParam("lojaId") Integer lojaId, @Valid VendaDto vendaDto){
+        Venda venda = vendaDtoMapper.toModel(vendaDto);
+        return vendaDtoMapper.toDto(frenteCaixaPort.saveTrocaOperation(lojaId, localCaixaId, venda));
+    }
+
+    @POST
     @RolesAllowed({"admin"})
     @Path("/loja")
     @Operation(summary = "Cadastra Loja")

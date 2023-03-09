@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.NonUniqueResultException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -38,8 +39,10 @@ public class CaixaAdapter implements CaixaPort {
     @Override
     public Caixa findCaixaByLojaIdAndLocalCaixaId(Integer lojaId, Integer localCaixaId) {
         CaixaEntity caixaEntity = null;
-        try{
+        try {
             caixaEntity = repository.findByLojaLojaIdAndLocalCaixaId(lojaId, localCaixaId);
+        } catch (NonUniqueResultException e1){
+            throw new IllegalArgumentException("Caixa com localCaixaId já registrado");
         }catch (Exception e){
             throw new IllegalArgumentException("Caixa de loja não encontrado");
         }
