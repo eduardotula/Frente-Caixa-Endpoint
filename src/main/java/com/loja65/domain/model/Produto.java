@@ -17,7 +17,7 @@ public class Produto {
     private Double valorUltVenda;
     private Double valor;
     private Integer lojaId;
-    private LocalDateTime DataUltVenda;
+    private LocalDateTime dataUltVenda;
     private LocalDateTime createdAt;
 
     public void create(LocalDateTime createdAt, Integer lojaId){

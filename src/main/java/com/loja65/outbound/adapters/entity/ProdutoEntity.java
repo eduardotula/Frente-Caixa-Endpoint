@@ -27,7 +27,7 @@ public class ProdutoEntity{
     @Column(name = "descricao",columnDefinition = "VARCHAR(80)")
     private String descricao;
 
-    @Column(name = "valorUltVenda",columnDefinition = "NUMERIC(18,2)")
+    @Column(name = "valorultvenda",columnDefinition = "NUMERIC(18,2)")
     private Double valorUltVenda;
 
     @Column(name = "valor",columnDefinition = "NUMERIC(18,2)")
@@ -38,8 +38,8 @@ public class ProdutoEntity{
     @JoinColumn(name = "loja_id_fk")
     private LojaEntity loja;
 
-    @Column(name = "DataUltVenda",columnDefinition = "TIMESTAMP")
-    private LocalDateTime DataUltVenda;
+    @Column(name = "dataultvenda",columnDefinition = "TIMESTAMP")
+    private LocalDateTime dataUltVenda;
 
     @Column(name = "createdAt",columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;

@@ -88,7 +88,7 @@ public class ProdutoRestAdapter {
     )
     public PaginationResponse<ProdutoDto> getProduto(@QueryParam("page") @DefaultValue("0") Integer page,
                                          @QueryParam("pageSize") @DefaultValue("50") Integer pageSize,
-                                         @QueryParam("sortField") @DefaultValue("codBarra") String sortField,
+                                         @QueryParam("sortField") @DefaultValue("produtoId") String sortField,
                                          @QueryParam("sortType") @DefaultValue("ASC") String sortType,
                                          @QueryParam("codBarra") String codBarra,
                                          @QueryParam("descricao") String descricao,
