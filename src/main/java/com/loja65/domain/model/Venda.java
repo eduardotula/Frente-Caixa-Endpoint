@@ -17,6 +17,8 @@ public class Venda {
     private Double valorDinheiro;
     private Double valorCartao;
     private Double valorTotal;
+    private Double desconto;
+    private Double valorFinal;
     private TipoPagamentoEnum tipoPagamento;
     private LocalDateTime createdAt;
     private Integer localVendaId;

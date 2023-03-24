@@ -44,15 +44,18 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         Produto prodEntity = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaId);
         if(prodEntity == null) {
             produto.create(venda.getCreatedAt(), loja.getLojaId());
-            produto.setValor(venda.getValorTotal()/venda.getQuantidade());
             prodEntity = produtoPort.insert(produto);
         }
 
         prodEntity.setDataUltVenda(venda.getCreatedAt());
         prodEntity.setValorUltVenda(venda.getValorTotal()/venda.getQuantidade());
         prodEntity.setDescricao(venda.getProduto().getDescricao());
+        produto.setValor(venda.getValorTotal()/venda.getQuantidade());
         produtoPort.insert(prodEntity);
+
         venda.setProduto(prodEntity);
+        venda.setValorFinal(venda.getValorTotal() - venda.getDesconto());
+
         final var fVenda = vendaPort.insert(venda);
 
         loja.setLastUpdated(defaultTimeZone.getSp());

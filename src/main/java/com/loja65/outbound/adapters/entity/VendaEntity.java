@@ -34,16 +34,22 @@ public class VendaEntity {
     @Column(name = "quantidade",columnDefinition = "INTEGER")
     private Integer quantidade;
 
-    @Column(name = "valorDinheiro",columnDefinition = "NUMERIC(18,2)")
+    @Column(name = "valordinheiro",columnDefinition = "NUMERIC(18,2)")
     private Double valorDinheiro;
 
-    @Column(name = "valorCartao",columnDefinition = "NUMERIC(18,2)")
+    @Column(name = "valorcartao",columnDefinition = "NUMERIC(18,2)")
     private Double valorCartao;
 
-    @Column(name = "valorTotal",columnDefinition = "NUMERIC(18,2)")
+    @Column(name = "valortotal",columnDefinition = "NUMERIC(18,2)")
     private Double valorTotal;
 
-    @Column(name = "tipoPagamento")
+    @Column(name = "desconto",columnDefinition = "NUMERIC(18,2)")
+    private Double desconto;
+
+    @Column(name = "valorFinal",columnDefinition = "NUMERIC(18,2)")
+    private Double valorFinal;
+
+    @Column(name = "tipopagamento")
     private String tipoPagamento;
 
     @ManyToOne()
