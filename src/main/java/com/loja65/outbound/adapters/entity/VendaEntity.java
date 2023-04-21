@@ -49,7 +49,7 @@ public class VendaEntity {
     @Column(name = "valorFinal",columnDefinition = "NUMERIC(18,2)")
     private Double valorFinal;
 
-    @Column(name = "tipopagamento")
+    @Column(name = "tipoPagamento")
     private String tipoPagamento;
 
     @ManyToOne()

@@ -17,8 +17,6 @@ public class Loja {
     private String rua;
     private String cidade;
     private String cep;
-    private List<Caixa> caixas;
-
     private LocalDateTime lastUpdated;
 
 }

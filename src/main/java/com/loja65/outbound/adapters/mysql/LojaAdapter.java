@@ -19,7 +19,8 @@ public class LojaAdapter implements LojaPort {
     LojaRepository repository;
     @Override
     public Loja findLojaById(Integer id) {
-        return mapper.lojaEntity2Loja(repository.findLojaBylojaId(id));
+        var loja = repository.findLojaBylojaId(id);
+        return mapper.lojaEntity2Loja(loja);
     }
 
     @Override
