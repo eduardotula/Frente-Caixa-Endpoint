@@ -32,6 +32,10 @@ public class ProdutoUseCase implements ProdutoDtoPort {
         var existProd = produtoPort.findById(produto.getProdutoId());
         if (Objects.isNull(existProd))
             throw new IllegalArgumentException(String.format("Produto com id:%d não encontrado", produto.getProdutoId()));
+        var sameCodebarProdcut = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(),existProd.getLojaId());
+        if(Objects.nonNull(sameCodebarProdcut))
+            throw new IllegalArgumentException("Produto com já cadastrado nesta loja");
+
         produto.setLojaId(existProd.getLojaId());
 
         if (produto.getCreatedAt() == null) produto.setCreatedAt(existProd.getCreatedAt());
@@ -41,8 +45,8 @@ public class ProdutoUseCase implements ProdutoDtoPort {
 
     @Override
     public Produto createProduto(Produto produto) {
-        Produto existProd = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), produto.getLojaId());
-        if (Objects.nonNull(existProd)) throw new IllegalArgumentException("Produto já cadastrado nesta loja");
+        List<Produto> existProds = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), produto.getLojaId());
+        if (Objects.nonNull(existProds) || existProds.size() > 0) throw new IllegalArgumentException("Produto já cadastrado nesta loja");
 
         Loja loja = lojaPort.findLojaById(produto.getLojaId());
         if (Objects.isNull(loja))
@@ -53,11 +57,11 @@ public class ProdutoUseCase implements ProdutoDtoPort {
     }
 
     @Override
-    public Produto findByCodbarra(String codBarra) {
-        Produto produto = produtoPort.findByCodBarra(codBarra);
-        if (Objects.isNull(produto))
+    public List<Produto> findByCodbarra(String codBarra) {
+        List<Produto> produtos = produtoPort.findByCodBarra(codBarra);
+        if (Objects.isNull(produtos) || produtos.size() == 0)
             throw new IllegalStateException(String.format("Produto não encontrado com codBarra: %s", codBarra));
-        return produto;
+        return produtos;
     }
 
     @Override
@@ -93,14 +97,16 @@ public class ProdutoUseCase implements ProdutoDtoPort {
         insertLojas.forEach(lojaConsultaInsert -> {
 
             Produto produto = consultaPrecoProduto.getProduto();
-            Produto existProduto = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaConsultaInsert.getLojaId());
+            List<Produto> existProdutos = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaConsultaInsert.getLojaId());
+            Produto existProduto;
 
-            if (Objects.isNull(existProduto)) {
+            if (Objects.isNull(existProdutos) || existProdutos.isEmpty()) {
                 produto.create(defaultTimeZone.getSp(), lojaConsultaInsert.getLojaId());
                 produto.setValor(consultaPrecoProduto.getNewValue());
                 consultaPrecoProduto.setProduto(produtoPort.insert(produto));
 
             } else {
+                existProduto = existProdutos.get(0);
                 existProduto.setDescricao(consultaPrecoProduto.getProduto().getDescricao());
                 existProduto.setValor(consultaPrecoProduto.getNewValue());
                 produtoPort.insert(existProduto);

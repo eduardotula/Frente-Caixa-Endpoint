@@ -15,7 +15,7 @@ public interface ProdutoDtoPort {
 
     Produto createProduto(Produto produto);
 
-    Produto findByCodbarra(String codBarra);
+    List<Produto> findByCodbarra(String codBarra);
 
     Pagination<Produto> findbyFilters(PageParam params, ProdutoFilter produtoFilter);
 

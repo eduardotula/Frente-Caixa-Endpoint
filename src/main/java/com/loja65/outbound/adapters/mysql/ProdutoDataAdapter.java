@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -47,13 +48,13 @@ public class ProdutoDataAdapter implements ProdutoPort {
     }
 
     @Override
-    public Produto findByCodBarra(String codBarra) {
-       return mapper.produtoEntity2Produto(repository.findByCodBarra(codBarra));
+    public List<Produto> findByCodBarra(String codBarra) {
+       return repository.findByCodBarra(codBarra).stream().map(mapper::produtoEntity2Produto).collect(Collectors.toList());
     }
 
     @Override
-    public Produto findByCodBarraAndLoja(String codBarra, Integer lojaId) {
-        return mapper.produtoEntity2Produto(repository.findByCodBarraAndLojaId(codBarra, lojaId));
+    public List<Produto> findByCodBarraAndLoja(String codBarra, Integer lojaId) {
+        return repository.findByCodBarraAndLojaId(codBarra, lojaId).stream().map(mapper::produtoEntity2Produto).collect(Collectors.toList());
     }
 
     @Override

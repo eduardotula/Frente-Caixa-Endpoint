@@ -5,14 +5,16 @@ import com.loja65.domain.model.Pagination;
 import com.loja65.domain.model.Produto;
 import com.loja65.domain.model.filters.ProdutoFilter;
 
+import java.util.List;
+
 public interface ProdutoPort {
 
     Produto insert(Produto produto);
 
     Produto findById(Integer produtoId);
 
-    Produto findByCodBarra(String codBarra);
-    Produto findByCodBarraAndLoja(String codBarra, Integer lojaId);
+    List<Produto> findByCodBarra(String codBarra);
+    List<Produto> findByCodBarraAndLoja(String codBarra, Integer lojaId);
 
     Pagination<Produto> findByFilters(PageParam params, ProdutoFilter produtoFilter);
 }

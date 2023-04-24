@@ -12,10 +12,10 @@ import java.util.List;
 
 public interface ProdutoRepository extends CrudRepository<ProdutoEntity, Integer> {
 
-    ProdutoEntity findByCodBarra(String codBarra);
+    List<ProdutoEntity> findByCodBarra(String codBarra);
 
     @Query("SELECT p FROM produto p WHERE p.loja.lojaId = :lojaId AND p.codBarra = :codBarra")
-    ProdutoEntity findByCodBarraAndLojaId(@Param("codBarra") String codBarra, @Param("lojaId") Integer lojaId);
+    List<ProdutoEntity> findByCodBarraAndLojaId(@Param("codBarra") String codBarra, @Param("lojaId") Integer lojaId);
 
         @Query(value = "from produto p WHERE " +
             "(:codBarra IS NULL OR p.codBarra LIKE cast(:codBarra||'%' as text)) " +

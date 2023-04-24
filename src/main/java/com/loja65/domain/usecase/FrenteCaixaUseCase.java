@@ -42,11 +42,14 @@ public class FrenteCaixaUseCase implements FrenteCaixaPort {
         venda.setCaixaId(lastCaixa.getCaixaId());
 
         Produto produto = venda.getProduto();
-        Produto prodEntity = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaId);
-        if(prodEntity == null) {
+        List<Produto> prodEntitys = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), lojaId);
+        Produto prodEntity;
+
+        if(prodEntitys == null || prodEntitys.size() == 0) {
             produto.create(venda.getCreatedAt(), loja.getLojaId());
             prodEntity = produtoPort.insert(produto);
-        }
+        }else
+            prodEntity = prodEntitys.get(0);
 
         prodEntity.setDataUltVenda(venda.getCreatedAt());
         prodEntity.setValorUltVenda(venda.getValorFinal());
