@@ -1,5 +1,6 @@
 package com.loja65.outbound.adapters.mysql;
 
+import antlr.StringUtils;
 import com.loja65.domain.model.PageParam;
 import com.loja65.domain.model.Pagination;
 import com.loja65.domain.model.TotalVendasPeriod;
@@ -9,8 +10,10 @@ import com.loja65.outbound.adapters.entity.VendaEntity;
 import com.loja65.outbound.adapters.mappers.VendaEntityMapper;
 import com.loja65.outbound.adapters.repositories.VendaRepository;
 import com.loja65.outbound.port.VendaPort;
+import io.quarkus.runtime.util.StringUtil;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -47,8 +50,10 @@ public class VendaAdapter implements VendaPort {
     public Pagination<Venda> findByFilters(VendaFilter filters, PageParam pageParam){
         Pageable pageable = PageRequest.of(pageParam.getPage(), pageParam.getPageSize());
 
+        Sort.Direction sortDirection = pageParam.getSortType().equalsIgnoreCase(Sort.Direction.ASC.toString()) ? Sort.Direction.ASC : Sort.Direction.DESC;
+
         var page = repository.findByFilters(filters.getDataInicial(), filters.getDataFinal(), filters.getLojaId(), filters.getFuncionario(),
-                pageable);
+                Sort.by(sortDirection,pageParam.getSortField()), pageable);
 
         return new Pagination<Venda>(pageParam.getPage(), pageParam.getPageSize(),page.getTotalPages(), (int)page.getTotalElements(), pageParam.getSortField(),
                 pageParam.getSortType(), page.stream().map(mapper::vendaEntity2Venda).collect(Collectors.toList()));

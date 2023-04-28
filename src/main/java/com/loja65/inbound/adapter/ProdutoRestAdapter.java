@@ -10,23 +10,19 @@ import com.loja65.inbound.adapter.dto.ProdutoDto;
 import com.loja65.inbound.adapter.mappers.ConsultaPrecoProdutoDtoMapper;
 import com.loja65.inbound.adapter.mappers.ProdutoDtoMapper;
 import com.loja65.inbound.adapter.responses.PaginationResponse;
-import com.loja65.inbound.port.FrenteCaixaPort;
 import com.loja65.inbound.port.ProdutoDtoPort;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.springframework.data.domain.Pageable;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,32 +42,14 @@ public class ProdutoRestAdapter {
     @Inject
     ConsultaPrecoProdutoDtoMapper consultaPrecoProdutoDtoMapper;
 
-    @PUT
-    @RolesAllowed({"admin", "loja"})
-    @Path("/{id}")
-    @Operation(summary = "Update produto")
-    @APIResponse(
-            description = "Update produto",
-            responseCode = "200",
-            content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON,
-                    schema = @Schema(type = SchemaType.OBJECT)
-            )
-    )
-    public ProdutoDto updateProduto(@PathParam("id") Integer id, @Valid ProdutoDto produtoDto) {
-        produtoDto.setProdutoId(id);
-        Produto produto = produtoDtoMapper.toModel(produtoDto);
-        return produtoDtoMapper.toDto(produtoPort.updateProduto(produto));
-    }
-
     @POST
     @RolesAllowed({"admin", "loja"})
     @Path("/")
-    @Operation(summary = "Create Produto")
-    public ProdutoDto createProduto(@QueryParam("lojaId") Integer lojaId, @Valid ProdutoDto produtoDto){
+    @Operation(summary = "Createupdate Produto")
+    public ProdutoDto createUpdateProduto(@QueryParam("lojaId") Integer lojaId, @Valid ProdutoDto produtoDto){
         produtoDto.setLojaId(lojaId);
         Produto produto = produtoDtoMapper.toModel(produtoDto);
-        return produtoDtoMapper.toDto(produtoPort.createProduto(produto));
+        return produtoDtoMapper.toDto(produtoPort.createUpdateProduto(produto));
     }
 
     @GET

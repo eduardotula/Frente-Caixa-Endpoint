@@ -4,6 +4,7 @@ import com.loja65.domain.model.TotalVendasPeriod;
 import com.loja65.outbound.adapters.entity.VendaEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,6 +29,7 @@ public interface VendaRepository extends JpaRepository<VendaEntity, Integer> {
                                       @Param("dataFinal") LocalDateTime dataFinal,
                                       @Param("lojaId") Integer lojaId,
                                       @Param("funcionario") String funcionario,
+                                      Sort sort,
                                       Pageable pageable);
 
     @Query(value = "SELECT sum(v.valorCartao), sum(v.valorDinheiro), sum(v.valorTotal) from venda v WHERE " +

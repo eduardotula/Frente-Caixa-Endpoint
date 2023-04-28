@@ -28,31 +28,44 @@ public class ProdutoUseCase implements ProdutoDtoPort {
     ConsultaPrecoProdutoPort consultaPrecoProdutoPort;
 
     @Override
-    public Produto updateProduto(Produto produto) {
-        var existProd = produtoPort.findById(produto.getProdutoId());
-        if (Objects.isNull(existProd))
-            throw new IllegalArgumentException(String.format("Produto com id:%d não encontrado", produto.getProdutoId()));
-        var sameCodebarProdcut = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(),existProd.getLojaId());
-        if(Objects.nonNull(sameCodebarProdcut))
-            throw new IllegalArgumentException("Produto com já cadastrado nesta loja");
+    @Transactional
+    public Produto createUpdateProduto(Produto produto) {
+        if (Objects.isNull(lojaPort.findLojaById(produto.getLojaId())))
+            throw new IllegalArgumentException(String.format("Loja não encontrada com id: %d", produto.getLojaId()));
 
-        produto.setLojaId(existProd.getLojaId());
+        Produto finalProduct;
+        if (Objects.nonNull(produto.getProdutoId()) && produto.getProdutoId() > 0) {
 
-        if (produto.getCreatedAt() == null) produto.setCreatedAt(existProd.getCreatedAt());
-        if (produto.getDataUltVenda() == null) produto.setDataUltVenda(existProd.getDataUltVenda());
+            var existProd = produtoPort.findById(produto.getProdutoId());
+            if (Objects.isNull(existProd))
+                finalProduct = createProduto(produto);
+            else finalProduct = updateProduto(produto, existProd);
+
+        } else finalProduct = createProduto(produto);
+
+        return finalProduct;
+    }
+
+    private Produto updateProduto(Produto produto, Produto oldProd) throws IllegalArgumentException{
+        var sameCodProdutos = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), produto.getLojaId());
+
+            //Verificar se já existe um produto com o mesmo código de barras á ser atualizado
+        if (!sameCodProdutos.isEmpty() && !Objects.equals(produto.getProdutoId(), sameCodProdutos.get(0).getProdutoId())){
+            var loja= lojaPort.findLojaById(produto.getLojaId());
+            throw new IllegalArgumentException(String.format("Codigo de barras já utilizado por produto: %s em loja: %s", sameCodProdutos.get(0).getDescricao(), loja.getNome()));
+        }
+
+        produto.update(oldProd);
+
         return produtoPort.insert(produto);
     }
 
-    @Override
-    public Produto createProduto(Produto produto) {
-        List<Produto> existProds = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), produto.getLojaId());
-        if (Objects.nonNull(existProds) || existProds.size() > 0) throw new IllegalArgumentException("Produto já cadastrado nesta loja");
+    private Produto createProduto(Produto produto) {
+        var existProds = produtoPort.findByCodBarraAndLoja(produto.getCodBarra(), produto.getLojaId());
 
-        Loja loja = lojaPort.findLojaById(produto.getLojaId());
-        if (Objects.isNull(loja))
-            throw new IllegalArgumentException(String.format("Loja com id: %d não existente", produto.getLojaId()));
+        if (existProds.isEmpty()) produto.create(defaultTimeZone.getSp(), produto.getLojaId());
+        else produto.update(existProds.get(0));
 
-        produto.create(defaultTimeZone.getSp(), loja.getLojaId());
         return produtoPort.insert(produto);
     }
 
@@ -84,7 +97,7 @@ public class ProdutoUseCase implements ProdutoDtoPort {
 
     @Override
     @Transactional
-    public void addUpdatedProdutosPrecosByDiferentLoja(ConsultaPrecoProduto consultaPrecoProduto, List<Integer> lojaIds){
+    public void addUpdatedProdutosPrecosByDiferentLoja(ConsultaPrecoProduto consultaPrecoProduto, List<Integer> lojaIds) {
         List<Loja> insertLojas = new ArrayList<>();
         List<Loja> allLojas = lojaPort.listAll();
 

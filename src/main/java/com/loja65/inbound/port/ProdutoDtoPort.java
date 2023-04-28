@@ -11,9 +11,7 @@ import java.util.List;
 
 public interface ProdutoDtoPort {
 
-    Produto updateProduto(Produto produto);
-
-    Produto createProduto(Produto produto);
+    Produto createUpdateProduto(Produto produto);
 
     List<Produto> findByCodbarra(String codBarra);
 
