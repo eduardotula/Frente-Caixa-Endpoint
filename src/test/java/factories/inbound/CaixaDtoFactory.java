@@ -1,7 +1,7 @@
 package factories.inbound;
 
-import com.loja65.inbound.adapter.dto.CaixaDto;
-import com.loja65.inbound.adapter.dto.OperacaoCaixaDto;
+import com.loja65.frentecaixa.inbound.adapter.dto.CaixaDto;
+import com.loja65.frentecaixa.inbound.adapter.dto.OperacaoCaixaDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.LocalDateTime;

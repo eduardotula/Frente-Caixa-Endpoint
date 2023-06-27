@@ -1,6 +1,6 @@
 package com.utils;
 
-import com.loja65.outbound.adapters.repositories.*;
+import com.loja65.frentecaixa.outbound.adapters.repositories.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

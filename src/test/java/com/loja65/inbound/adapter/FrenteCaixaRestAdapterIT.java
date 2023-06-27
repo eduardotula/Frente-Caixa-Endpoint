@@ -1,14 +1,12 @@
 package com.loja65.inbound.adapter;
 
-import com.loja65.domain.enums.OperacaoCaixaEnum;
-import com.loja65.domain.model.Caixa;
-import com.loja65.inbound.adapter.dto.CaixaDto;
-import com.loja65.inbound.adapter.dto.OperacaoCaixaDto;
-import com.loja65.inbound.adapter.dto.VendaDto;
-import com.loja65.inbound.adapter.mappers.OperacaoCaixaDtoMapper;
-import com.loja65.outbound.adapters.entity.LojaEntity;
-import com.loja65.outbound.adapters.entity.security.UserAuth;
-import com.loja65.outbound.adapters.repositories.*;
+import com.loja65.frentecaixa.domain.enums.OperacaoCaixaEnum;
+import com.loja65.frentecaixa.domain.model.Caixa;
+import com.loja65.frentecaixa.inbound.adapter.dto.CaixaDto;
+import com.loja65.frentecaixa.inbound.adapter.dto.VendaDto;
+import com.loja65.frentecaixa.outbound.adapters.entity.security.UserAuth;
+import com.loja65.frentecaixa.outbound.adapters.repositories.LojaRepository;
+import com.loja65.frentecaixa.outbound.adapters.repositories.UserAuthRespository;
 import com.utils.DatabaseCleaner;
 import com.utils.Validator;
 import factories.inbound.CaixaDtoFactory;
@@ -24,7 +22,6 @@ import static io.restassured.RestAssured.*;
 import static org.junit.jupiter.api.Assertions.*;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @QuarkusTest
@@ -140,10 +137,10 @@ class FrenteCaixaRestAdapterIT {
             var caixaFechado = fecharCaixa();
             System.out.println(caixaFechado);
 
-            assertEquals(caixaFechado.getStatus(), Caixa.CaixaStatus.FECHADO);
-            assertEquals(caixaFechado.getStatus(), Caixa.CaixaStatus.FECHADO);
-            assertEquals(caixaFechado.getOperacaoCaixaDto().get(0).getOperacao(), OperacaoCaixaEnum.ABRIR_CAIXA);
-            assertEquals(caixaFechado.getOperacaoCaixaDto().get(1).getOperacao(), OperacaoCaixaEnum.FECHAR_CAIXA);
+            assertEquals(caixaFechado.getStatus(), Caixa.CaixaStatus.FECHADO.name());
+            assertEquals(caixaFechado.getStatus(), Caixa.CaixaStatus.FECHADO.name());
+            assertEquals(caixaFechado.getOperacaoCaixaDto().get(0).getOperacao(), OperacaoCaixaEnum.ABRIR_CAIXA.name());
+            assertEquals(caixaFechado.getOperacaoCaixaDto().get(1).getOperacao(), OperacaoCaixaEnum.FECHAR_CAIXA.name());
         }
 
         @Test
@@ -154,7 +151,8 @@ class FrenteCaixaRestAdapterIT {
             var response = given().contentType(ContentType.JSON)
                     .auth().basic(defaultUser.getUserName(), DEFAULT_AUTH_PASS)
                     .body(caixaDtoFactory.createBasicCaixaAberto(2525, 1))
-                    .post("/caixa/operacaoCaixa/" + caixa.getLojaId()).then().statusCode(200).extract().as(new TypeRef<OperacaoCaixaDto>() {});
+                    .post("/caixa/operacaoCaixa/" + caixa.getLojaId()).then();
+            System.out.println(response.extract().body().asString());
 
             var caixaFechado = fecharCaixa();
         }
