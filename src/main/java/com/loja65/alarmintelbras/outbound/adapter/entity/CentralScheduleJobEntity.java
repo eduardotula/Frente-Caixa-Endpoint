@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity(name = "centralScheduleJob")
 @Table(name = "central_schedule_job")
-public class CentralScheduleJob {
+public class CentralScheduleJobEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +32,5 @@ public class CentralScheduleJob {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "central_id_fk")
-    private Central central;
+    private CentralEntity centralEntity;
 }

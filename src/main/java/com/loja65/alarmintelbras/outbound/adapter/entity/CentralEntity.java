@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity(name = "central")
 @Table(name = "central")
-public class Central {
+public class CentralEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,6 @@ public class Central {
     private LocalDateTime deactivationTime;
 
     @OneToMany(mappedBy = "central")
-    private List<CentralScheduleJob> centralScheduleJobList;
+    private List<CentralScheduleJobEntity> centralScheduleJobEntityList;
 
 }
