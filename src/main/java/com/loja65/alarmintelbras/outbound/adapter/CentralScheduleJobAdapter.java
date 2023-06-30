@@ -1,5 +1,6 @@
 package com.loja65.alarmintelbras.outbound.adapter;
 
+import com.loja65.alarmintelbras.domain.model.Central;
 import com.loja65.alarmintelbras.domain.model.CentralScheduleJob;
 import com.loja65.alarmintelbras.outbound.adapter.entity.CentralScheduleJobEntity;
 import com.loja65.alarmintelbras.outbound.adapter.mapper.CentralScheduleJobEntityMapper;
@@ -9,6 +10,7 @@ import com.loja65.alarmintelbras.outbound.port.CentralScheduleJobPort;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @ApplicationScoped

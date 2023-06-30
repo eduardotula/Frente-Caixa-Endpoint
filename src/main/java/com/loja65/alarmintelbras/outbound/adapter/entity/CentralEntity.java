@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -20,7 +21,7 @@ public class CentralEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "central_id",columnDefinition = "INTEGER")
+    @Column(name = "central_id")
     private Integer centralId;
 
     @NotNull
@@ -36,14 +37,14 @@ public class CentralEntity {
     private String password;
 
     @NotNull
-    @Column(name = "activation_time", columnDefinition = "TIMESTAMP")
-    private LocalDateTime activationTime;
+    @Column(name = "activation_time", columnDefinition = "TIME")
+    private LocalTime activationTime;
 
     @NotNull
-    @Column(name = "deactivation_time", columnDefinition = "TIMESTAMP")
-    private LocalDateTime deactivationTime;
+    @Column(name = "deactivation_time", columnDefinition = "TIME")
+    private LocalTime deactivationTime;
 
     @OneToMany(mappedBy = "central")
-    private List<CentralScheduleJobEntity> centralScheduleJobEntityList;
+    private List<CentralScheduleJobEntity> centralScheduleJobList;
 
 }

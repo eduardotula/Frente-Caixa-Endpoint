@@ -18,4 +18,11 @@ public class DefaultTimeZone {
         var t = now.toLocalDateTime();
         return t;
     }
+
+    public LocalDateTime convertToSystemZoneId(LocalDateTime localDateTime){
+        var correctTime = ZonedDateTime.of(localDateTime,ZoneId.of(zoneId));
+        var convertedTime = correctTime.withZoneSameInstant(ZoneId.systemDefault());
+        var t = convertedTime.toLocalDateTime();
+        return t;
+    }
 }

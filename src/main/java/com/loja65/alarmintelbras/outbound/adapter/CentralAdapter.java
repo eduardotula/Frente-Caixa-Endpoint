@@ -31,6 +31,16 @@ public class CentralAdapter implements CentralPort {
     }
 
     @Override
+    public List<Central> findByDescricao(String descricao){
+        return repository.findByDescricao(descricao).stream().map(mapper::toModel).collect(Collectors.toList());
+    }
+
+    @Override
+    public Central findByMac(String mac){
+        return mapper.toModel(repository.findByCentralMac(mac));
+    }
+
+    @Override
     public List<Central> listAll(){
         return repository.findAll().stream().map(mapper::toModel).collect(Collectors.toList());
     }

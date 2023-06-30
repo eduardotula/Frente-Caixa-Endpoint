@@ -8,6 +8,10 @@ public interface CentralPort {
 
     Central save(Central central);
 
+    List<Central> findByDescricao(String descricao);
+
+    Central findByMac(String mac);
+
     List<Central> listAll();
 
     Central findById(int id);

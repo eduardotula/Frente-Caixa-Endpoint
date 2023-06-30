@@ -2,8 +2,11 @@ package com.loja65.alarmintelbras.outbound.adapter;
 
 import com.loja65.alarmintelbras.domain.enums.CentralStatusEnum;
 import com.loja65.alarmintelbras.outbound.port.IntelbrasPort;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
@@ -15,16 +18,17 @@ public class IntelbrasAdapter implements IntelbrasPort {
     final List<Integer> centralMac = new ArrayList<>();
     List<Integer> password;
     List<Integer> token;
-    @ConfigProperty(name = "intelbras.address")
     String address;
-    @ConfigProperty(name = "intelbras.port")
     int port;
     Socket socket;
     static int COMANDO_CONEXAO = 229;
     static int DISPOSITIVO_TYPE = 2;
 
     public IntelbrasAdapter(String androidId, String centralMacHex, String password, String token) throws IOException {
+        this.address = ConfigProvider.getConfig().getValue("intelbras.address", String.class);
+        this.port =  ConfigProvider.getConfig().getValue("intelbras.port", Integer.class);
         this.socket = new Socket(address, port);
+        this.socket.setSoTimeout(10000);
 
         this.token = convertToIntValues(token);
         this.password = convertToIntValues(password);

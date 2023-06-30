@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -20,8 +21,16 @@ public class Central {
     private String descricao;
     private String centralMac;
     private String password;
-    private LocalDateTime activationTime;
-    private LocalDateTime deactivationTime;
+    private LocalTime activationTime;
+    private LocalTime deactivationTime;
     private List<CentralScheduleJob> centralScheduleJobList;
+
+    public String getActivationJobName(){
+        return String.format("active:%s:%s", this.getDescricao(), this.centralMac);
+    }
+
+    public String getDisableJobName(){
+        return  String.format("disable:%s:%s", this.getDescricao(), this.centralMac);
+    }
 
 }

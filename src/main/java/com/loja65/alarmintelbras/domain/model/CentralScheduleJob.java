@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -15,6 +16,6 @@ public class CentralScheduleJob {
 
     private Integer centralScheduleJobId;
     private String description;
-    private LocalDateTime running_time;
+    private LocalTime runningTime;
     private Integer centralId;
 }

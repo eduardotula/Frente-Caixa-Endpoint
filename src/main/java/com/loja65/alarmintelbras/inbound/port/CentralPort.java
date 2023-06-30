@@ -2,11 +2,15 @@ package com.loja65.alarmintelbras.inbound.port;
 
 import com.loja65.alarmintelbras.domain.model.Central;
 
-import javax.resource.spi.IllegalStateException;
+import java.util.List;
 
 public interface CentralPort {
 
-    Central save(Central central) throws IllegalStateException;
+    Central update(Central central);
+
+    Central create(Central central);
 
     void delete(int id);
+
+    List<String> getScheduledJobs();
 }

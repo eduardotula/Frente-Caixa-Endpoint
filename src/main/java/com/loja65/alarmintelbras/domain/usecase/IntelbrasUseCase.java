@@ -30,6 +30,38 @@ public class IntelbrasUseCase {
         }
     }
 
+    public void activateAlarme(IntelbrasAdapter adapter) throws IntelbrasException {
+        try {
+            var response = validateConnectionAndAuth(adapter);
+            if (response != CentralStatusEnum.CENTRAL_CONECTADA) {
+                throw new IllegalStateException("Central Desconectada");
+            }
+
+            var status = adapter.getCentralStatusSimple();
+            if (status == CentralStatusEnum.CENTRAL_DESATIVADA) {
+                adapter.activateAlarm();
+            }
+        } catch (Exception e) {
+            throw new IntelbrasException(e);
+        }
+    }
+
+    public void disableAlarme(IntelbrasAdapter adapter) throws IntelbrasException {
+        try {
+            var response = validateConnectionAndAuth(adapter);
+            if (response != CentralStatusEnum.CENTRAL_CONECTADA) {
+                throw new IllegalStateException("Central Desconectada");
+            }
+
+            var status = adapter.getCentralStatusSimple();
+            if (status == CentralStatusEnum.CENTRAL_ATIVA) {
+                adapter.deactivateAlarm();
+            }
+        } catch (Exception e) {
+            throw new IntelbrasException(e);
+        }
+    }
+
     private CentralStatusEnum validateConnectionAndAuth(
             IntelbrasAdapter adapter) throws IOException {
         List<Integer> response = adapter.sendAutorization();
