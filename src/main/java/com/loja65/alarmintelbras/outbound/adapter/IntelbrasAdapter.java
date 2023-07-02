@@ -116,7 +116,7 @@ public class IntelbrasAdapter implements IntelbrasPort {
         if (statusCentral.get(23) == 0) {
             return CentralStatusEnum.CENTRAL_DESATIVADA;
         } else if (statusCentral.get(23) == 3) {
-            return CentralStatusEnum.CENTRAL_DESATIVADA;
+            return CentralStatusEnum.CENTRAL_ATIVA;
         }
 
         return CentralStatusEnum.DESCONHECIDO;
@@ -157,10 +157,6 @@ public class IntelbrasAdapter implements IntelbrasPort {
         for (int i = 0; i < limit; i++) {
             response.add(this.socket.getInputStream().read());
         }
-        response.stream().forEach(e -> {
-            System.out.print(e + " ");
-        });
-        System.out.println(" ");
         return response;
     }
 

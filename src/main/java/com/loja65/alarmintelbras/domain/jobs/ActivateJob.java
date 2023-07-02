@@ -30,9 +30,11 @@ public class ActivateJob implements Job {
             IntelbrasAdapter adapter = new IntelbrasAdapter(androidId,central.getCentralMac(),central.getPassword(),token);
             intelbrasUseCase.activateAlarme(adapter);
             adapter.close();
-        } catch (IOException | IntelbrasException e) {
+        } catch (IOException e) {
             throw new IllegalArgumentException(String.format("Falha ao executar SetCentral de central :%s", central.getDescricao()));
 
+        } catch (IntelbrasException e){
+            System.out.println(e.getMessage());
         }
 
     }

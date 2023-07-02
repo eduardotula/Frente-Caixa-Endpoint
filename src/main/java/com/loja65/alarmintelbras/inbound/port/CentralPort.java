@@ -13,4 +13,6 @@ public interface CentralPort {
     void delete(int id);
 
     List<String> getScheduledJobs();
+
+    List<Central> listAllCentral();
 }

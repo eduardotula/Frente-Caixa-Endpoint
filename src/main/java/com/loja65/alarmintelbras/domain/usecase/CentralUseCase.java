@@ -5,7 +5,6 @@ import com.loja65.alarmintelbras.domain.model.Central;
 import com.loja65.alarmintelbras.domain.utils.JobScheduler;
 import com.loja65.alarmintelbras.inbound.port.CentralPort;
 import com.loja65.alarmintelbras.outbound.adapter.CentralAdapter;
-import com.loja65.alarmintelbras.outbound.port.CentralScheduleJobPort;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -72,6 +71,11 @@ public class CentralUseCase implements CentralPort {
     @Override
     public List<String> getScheduledJobs() {
         return jobScheduler.getScheduledJobs();
+    }
+
+    @Override
+    public List<Central> listAllCentral(){
+        return adapter.listAll();
     }
 
 

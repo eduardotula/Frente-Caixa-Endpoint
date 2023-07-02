@@ -18,6 +18,7 @@ import javax.validation.constraints.Positive;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequestScoped
 @Path("/central")
@@ -95,6 +96,22 @@ public class CentralRestAdapter {
     )
     public List<String> getAllScheduledJobs(){
         return centralPort.getScheduledJobs();
+    }
+
+    @GET
+    @RolesAllowed({"admin", "loja"})
+    @Path("/")
+    @Operation(summary = "Get all scheduled Jobs")
+    @APIResponse(
+            description = "Get all scheduled Jobs",
+            responseCode = "200",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(type = SchemaType.OBJECT)
+            )
+    )
+    public List<CentralDto> listAllCentral(){
+        return centralPort.listAllCentral().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
 }
