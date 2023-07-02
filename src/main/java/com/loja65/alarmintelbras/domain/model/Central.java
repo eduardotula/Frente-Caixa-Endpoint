@@ -33,4 +33,14 @@ public class Central {
         return  String.format("disable:%s:%s", this.getDescricao(), this.centralMac);
     }
 
+    public String getActivationJobRetryName(LocalDateTime localDateTime){
+        return String.format("retry_active_%s:%s :%s:%s",localDateTime.getHour(), localDateTime.getMinute(),
+                this.getDescricao(), this.centralMac);
+    }
+
+    public String getDisableJobRetryName(LocalDateTime localDateTime){
+        return  String.format("retry_disable_%s:%s: %s:%s",localDateTime.getHour(), localDateTime.getMinute(),
+                this.getDescricao(), this.centralMac);
+    }
+
 }
