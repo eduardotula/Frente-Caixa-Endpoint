@@ -25,20 +25,20 @@ public class CentralUseCase implements CentralPort {
     @Override
     @Transactional
     public Central update(Central central) {
+        Central existingCentral;
         if (central.getCentralId() == null) {
 
-            var existingCentral = adapter.findByMac(central.getCentralMac());
+            existingCentral = adapter.findByMac(central.getCentralMac());
             if (Objects.isNull(existingCentral))
                 throw new IllegalArgumentException(String.format("Central com mac %s não encontrado", central.getCentralMac()));
 
             central.setCentralId(existingCentral.getCentralId());
-            central.setCentralScheduleJobList(existingCentral.getCentralScheduleJobList());
         }else {
-            var existingCentral = adapter.findById(central.getCentralId());
-            central.setCentralScheduleJobList(existingCentral.getCentralScheduleJobList());
+            existingCentral = adapter.findById(central.getCentralId());
         }
+        central.setCentralScheduleJobList(existingCentral.getCentralScheduleJobList());
 
-        centralScheduleJobUseCase.deleteScheduledJobsByCentral(central);
+        centralScheduleJobUseCase.deleteScheduledJobsByCentral(existingCentral);
         central = adapter.save(central);
         var jobs = centralScheduleJobUseCase.createScheduleJobsByCentral(central);
         central.setCentralScheduleJobList(jobs);
