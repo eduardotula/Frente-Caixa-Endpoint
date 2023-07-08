@@ -53,7 +53,7 @@ public class ActivateJob implements Job {
     }
 
     private void createRetryJob(Central central){
-        var convertedActivation = defaultTimeZone.convertToSystemZoneId(LocalDateTime.now().plus(retryTime, ChronoUnit.MINUTES));
+        var convertedActivation = LocalDateTime.now().plus(retryTime, ChronoUnit.MINUTES);
         String activateCron = cronUtils.toCronHourSingleUse(convertedActivation);
         String activationJobNameRetry = central.getActivationJobRetryName(convertedActivation);
 

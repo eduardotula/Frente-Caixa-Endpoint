@@ -53,7 +53,7 @@ public class DisableJob implements Job {
     }
 
     private void createRetryJob(Central central){
-        var convertedDeactivation = defaultTimeZone.convertToSystemZoneId(LocalDateTime.now().plus(retryTime, ChronoUnit.MINUTES));
+        var convertedDeactivation = LocalDateTime.now().plus(retryTime, ChronoUnit.MINUTES);
         String disableCron = cronUtils.toCronHourSingleUse(convertedDeactivation);
         String disableJobName = central.getDisableJobRetryName(convertedDeactivation);
 
