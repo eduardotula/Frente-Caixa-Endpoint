@@ -1,6 +1,6 @@
 package factories.outbound;
 
-import com.loja65.outbound.adapters.entity.LojaEntity;
+import com.loja65.frentecaixa.outbound.adapters.entity.LojaEntity;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.LocalDateTime;
